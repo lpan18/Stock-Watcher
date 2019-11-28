@@ -1,0 +1,48 @@
+{
+    "port": 4000,
+    "api_key": "NN650RBZE5V154LW",
+    "company": {
+        "profile": {
+            "url": "https://financialmodellingprep.com/api/v3/company/profile"
+        },
+        "financial": {
+            "income": {
+                "url": "https://financialmodelingprep.com/api/v3/financials/income-statement",
+                "period": "quarter"
+            }
+        },
+        "key_metrics": {
+            "url": "https://financialmodelingprep.com/api/v3/company-key-metrics"
+        }
+    },
+    "stock_price": {
+        "intraday": {
+            "url": "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY",
+            "interval": "5min",
+            "outputsize": "compact"
+        },
+        "daily": {
+            "url": "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY",
+            "outputsize": "compact"
+        },
+        "major_indexes": {
+            "url": "https://financialmodelingprep.com//api/v3/majors-indexes"
+        },
+        "sector_performance": {
+            "url": "https://www.alphavantage.co/query?function=SECTOR"
+        }
+    },
+    "exchange_rate": {
+        "realtime": {
+            "url": "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE"
+        },
+        "intraday": {
+            "url": "https://www.alphavantage.co/query?function=FX_INTRADAY",
+            "interval": "5min",
+            "outputsize": "full"
+        },
+        "daily": {
+            "url": "https://www.alphavantage.co/query?function=FX_DAILY"
+        }
+    }
+}

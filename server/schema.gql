@@ -1,0 +1,13 @@
+type Query {
+  meta: JSON
+}
+
+type Mutation {
+  meta: JSON
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}
+

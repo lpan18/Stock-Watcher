@@ -1,0 +1,9 @@
+extend type Security {
+  incomes: [Income]
+}
+
+type Income {
+  date: String,
+  revenue: String,
+  EPS: String
+}

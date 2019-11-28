@@ -1,0 +1,27 @@
+const dig = require("object-dig"),
+  R = require('ramda'),
+  keyMetricsHelper = require("./helper"),
+  config = require("config")
+
+const keyMetricsResolver = (parent, args, context, info) => {
+  const url = keyMetricsHelper.keyMetricsURL(parent.symbol);
+  return context
+    .fetch(url)
+    .then(response => {
+      const key_metrics = dig(response || {}, "metrics")[0];
+      return {
+        revenue_per_share: key_metrics['Revenue per Share'],
+        net_income_per_share: key_metrics['Net Income per Share'],
+        market_cap: key_metrics['Market Cap'],
+        enterprise_value: key_metrics['Enterprise Value'],
+        PE_ratio: key_metrics['PE ratio']
+      }
+    })
+    .catch(() => null);
+}
+
+module.exports = {
+  Security: {
+    key_metrics: keyMetricsResolver
+  }
+}

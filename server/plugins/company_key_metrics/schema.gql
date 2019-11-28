@@ -1,0 +1,12 @@
+extend type Security {
+  key_metrics: KeyMetrics
+}
+
+type KeyMetrics {
+  revenue_per_share: String
+  net_income_per_share: String
+  operating_cash_flow_per_share: String
+  market_cap: String
+  enterprise_value: String
+  PE_ratio: String
+}

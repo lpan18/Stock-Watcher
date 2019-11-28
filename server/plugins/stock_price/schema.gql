@@ -1,0 +1,50 @@
+extend type Security {
+  stock_price: StockPrice
+}
+
+type StockPrice {
+  intraday: Price
+  daily: Price
+  major_indexes: [MajorIndex]
+  sector_performance: SectorPerformance
+}
+
+type Price {
+  last_refreshed: String
+  time_zone: String
+  prices: TradePrice
+}
+
+type TradePrice {
+  open: String
+  high: String
+  low: String
+  close: String
+  volume: String
+}
+
+type MajorIndex {
+  ticker: String
+  changes: Float
+  price: Float
+  indexName: String
+}
+
+type SectorPerformance {
+  last_refreshed: String
+  performance: Performance
+}
+
+type Performance {
+  financials: String
+  consumer_discretionary: String
+  industrials: String
+  health_care: String
+  materials: String
+  communication_services: String
+  utilities: String
+  information_technology: String
+  consumer_staples: String
+  energy: String
+  real_estate: String
+}
