@@ -1,16 +1,14 @@
-import express from 'express'
-import path from 'path';
-import config  from 'config'
-import { express as voyagerMiddleware } from 'graphql-voyager/middleware';
-import { ApolloServer } from 'apollo-server-express'
-
-import { version } from '../package.json'
-import contextHelper from './helpers/context_helper'
-import winston from 'winston'
-import executableSchema from "./schema"
-
-const bodyParser = require('body-parser'),
-R = require('ramda');
+const express = require('express'),
+  path = require('path'),
+  config = require('config'),
+  voyagerMiddleware = require('graphql-voyager/middleware').express,
+  { ApolloServer } = require('apollo-server-express'),
+  { version } = require('../package.json'),
+  contextHelper = require('./helpers/context_helper'),
+  winston = require('winston'),
+  executableSchema = require("./schema"),
+  bodyParser = require('body-parser'),
+  R = require('ramda')
 
 
 // const logger = winston.createLogger({
@@ -26,12 +24,12 @@ R = require('ramda');
 //     format: winston.format.simple()
 //   }));
 // }
-const server = new ApolloServer({ 
-  schema:executableSchema,
-  context: ({ req }) => { 
+const server = new ApolloServer({
+  schema: executableSchema,
+  context: ({ req }) => {
     return R.path(['context'], req);
   },
- });
+});
 
 const app = express();
 
