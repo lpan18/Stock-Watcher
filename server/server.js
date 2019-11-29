@@ -44,7 +44,9 @@ app.use('/graphql', (req, res, next) => {
 // app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', function (req, res) {
-  res.sendFile(path.join('__dirname' + '/index.html'));
+  res.sendFile('index.html', { root: __dirname });
+
+  // res.sendFile(path.join('__dirname' + '/index.html'));
 });
 
 server.applyMiddleware({ app });
