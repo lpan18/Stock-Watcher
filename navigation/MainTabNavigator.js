@@ -2,10 +2,12 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
-import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import TabBarIcon from '../components/TabBarIcon'
+import HomeScreen from '../screens/HomeScreen'
+import LinksScreen from '../screens/LinksScreen'
+import SettingsScreen from '../screens/SettingsScreen'
+
+import StockDetail from '../components/HomeScreen/StockDetail'
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -15,8 +17,23 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
+    StockDetail: StockDetail
   },
-  config
+  // config
+  {
+    initialRouteName: 'StockDetail',
+  }
+  //   defaultNavigationOptions: {
+  //     headerStyle: {
+  //       backgroundColor: '#f4511e',
+  //     },
+  //     headerTintColor: '#fff',
+  //     headerTitleStyle: {
+  //       fontWeight: 'bold',
+  //     },
+  //     headerMode: 'screen'
+  //   },
+  // }
 );
 
 HomeStack.navigationOptions = {

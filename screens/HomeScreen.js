@@ -1,68 +1,24 @@
-import React, { useState, Fragment } from "react";
-import { SearchBar, Text } from "react-native-elements";
-import { useQuery } from "@apollo/react-hooks";
-import { GET_DESCRIPTION } from "../components/queries";
+import React from "react"
+import { ScrollView, StyleSheet, Button} from 'react-native'
 
-export default function HomeScreen() {
-  const [searchTxt, setSearchTxt] = useState("");
-  // let shouldSkip = false;
-  let maxSymbolLength = 6;
-  const updateSearchTxt = searchTxt => {
-    if (searchTxt.length <= maxSymbolLength) {
-      setSearchTxt(searchTxt);
-    }
-  };
-  // if (searchTxt == "AAPL" || searchTxt == "MSFT") {
-  //   shouldSkip = false;
-  // }else{
-  //   shouldSkip = true;
-  // }
-  const { loading, error, data } = useQuery(GET_DESCRIPTION, {
-    // skip: shouldSkip,
-    variables: { symbol: searchTxt }
-  });
+import Search from "../components/HomeScreen/Search"
 
-  if (error) {
-    return <Text>Error! {error.message}</Text>;
-  }
-
+export default function HomeScreen(props) {
   return (
-    <Fragment>
-      <SearchBar
-        lightTheme
-        placeholder="Search Here..."
-        onChangeText={updateSearchTxt}
-        value={searchTxt}
-        showCancel
-      />
-      {loading || searchTxt == "" ? <Text /> : (
-        <Text h3>{data.security.symbol}   <Text h4>{data.security.profile.companyName} {"\n"} </Text></Text>
-
-
-        // <Text>Price: {data.security.profile.price} {"\n"}
-        // Changes: {data.security.profile.changes} {"\n"}
-        // Changes Percentage: {data.security.profile.changesPercentage} {"\n"}
-        // {data.security.profile.description}
-        // </Text>
-      )
-      }
-    </Fragment>
+    <ScrollView style={styles.container}>
+      <Search {...props}/>
+    </ScrollView>
   );
 }
 
-// price: Float
-// beta: String
-// volAvg: String
-// mktCap: String
-// lastDiv: String
-// range: String
-// changes: Float
-// changesPercentage: String
-// companyName: String
-// exchange: String
-// industry: String
-// website: String
-// description: String
-// ceo: String
-// sector: String
-// image: String
+HomeScreen.navigationOptions = {
+  title: 'Home',
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 15,
+    backgroundColor: '#fff',
+  },
+});
