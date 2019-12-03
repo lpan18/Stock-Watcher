@@ -7,7 +7,7 @@ import HomeScreen from '../screens/HomeScreen'
 import LinksScreen from '../screens/LinksScreen'
 import SettingsScreen from '../screens/SettingsScreen'
 
-import StockDetail from '../components/HomeScreen/StockDetail'
+import StockDetail from '../components/home_screen/StockDetail'
 
 const config = Platform.select({
   web: { headerMode: 'screen' },

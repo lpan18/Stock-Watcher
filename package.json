@@ -26,8 +26,6 @@
     "apollo-link-http": "^1.5.15",
     "apollo-server": "^2.9.6",
     "apollo-server-express": "^2.9.6",
-    "aws-amplify": "^1.2.4",
-    "aws-amplify-react-native": "^2.2.3",
     "bluebird": "^3.7.2",
     "body-parser": "^1.18.3",
     "config": "3.0.1",

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Button } from "react-native-elements"
-import { StyleSheet, View, Text } from "react-native"
+import { ScrollView,StyleSheet, View, Text } from "react-native"
 import Touchable from 'react-native-platform-touchable';
 import * as WebBrowser from 'expo-web-browser';
 
@@ -32,6 +32,7 @@ export default function StockDetail(props) {
         return <Text>Error! {error.message}</Text>;
     }
     return (
+        <ScrollView style={styles.container}>
         <View>
             {loading ? <Text /> : (<View style={styles.stockView}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -47,6 +48,7 @@ export default function StockDetail(props) {
             </View>
             )}
         </View>
+        </ScrollView>
 
     );
 }
@@ -63,6 +65,11 @@ const styles = StyleSheet.create({
         borderBottomWidth: StyleSheet.hairlineWidth,
         borderBottomColor: '#EDEDED',
     },
+    container: {
+        flex: 1,
+        paddingTop: 15,
+        backgroundColor: '#fff',
+      },    
     stockView: {
         marginTop: 5,
         marginLeft: 5,

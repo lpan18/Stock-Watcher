@@ -8,15 +8,9 @@ import { Asset } from 'expo-asset'
 import * as Font from 'expo-font'
 import { Platform, StatusBar, StyleSheet, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
-import Amplify from 'aws-amplify'
-import awsconfig from './aws-exports'
-import { withAuthenticator } from 'aws-amplify-react-native'
-
 import AppNavigator from './navigation/AppNavigator'
 
-Amplify.configure(awsconfig);
-
-function App(props) {
+export default function App(props) {
   const client = new ApolloClient({
     link: createHttpLink({ uri: 'http://192.168.0.34:4000/graphql' }),
     cache: new InMemoryCache()
@@ -79,5 +73,3 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 });
-
-export default withAuthenticator(App, true);

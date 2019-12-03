@@ -1,7 +1,7 @@
 import React from "react"
 import { ScrollView, StyleSheet, Button} from 'react-native'
 
-import Search from "../components/HomeScreen/Search"
+import Search from "../components/home_screen/Search"
 
 export default function HomeScreen(props) {
   return (
