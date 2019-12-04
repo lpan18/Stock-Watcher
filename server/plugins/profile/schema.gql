@@ -1,0 +1,22 @@
+extend type Security {
+  profile: Profile
+}
+
+type Profile {
+  price: Float
+  beta: String
+  volAvg: String
+  mktCap: String
+  lastDiv: String
+  range: String
+  changes: Float
+  changesPercentage: String
+  companyName: String
+  exchange: String
+  industry: String
+  website: String
+  description: String
+  ceo: String
+  sector: String
+  image: String
+}

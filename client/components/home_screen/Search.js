@@ -5,7 +5,7 @@ import Touchable from 'react-native-platform-touchable';
 import * as WebBrowser from 'expo-web-browser';
 
 import { useQuery } from "@apollo/react-hooks"
-import { GET_DESCRIPTION } from "../queries"
+import { GET_PROFILE } from "../queries"
 
 export default function Search(props) {
   // const { navigate } = props.navigation;
@@ -27,7 +27,7 @@ export default function Search(props) {
   // }else{
   //   shouldSkip = true;
   // }
-  const { loading, error, data } = useQuery(GET_DESCRIPTION, {
+  const { loading, error, data } = useQuery(GET_PROFILE, {
     // skip: shouldSkip,
     variables: { symbol: searchTxt }
   });

@@ -24,13 +24,13 @@
         "daily": {
             "url": "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY",
             "outputsize": "compact"
-        },
-        "major_indexes": {
-            "url": "https://financialmodelingprep.com//api/v3/majors-indexes"
-        },
-        "sector_performance": {
-            "url": "https://www.alphavantage.co/query?function=SECTOR"
         }
+    },
+    "major_indexes": {
+        "url": "https://financialmodelingprep.com//api/v3/majors-indexes"
+    },
+    "sector_performance": {
+        "url": "https://www.alphavantage.co/query?function=SECTOR"
     },
     "exchange_rate": {
         "realtime": {

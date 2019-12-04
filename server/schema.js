@@ -3,9 +3,12 @@ const requireText = require('require-text'),
   makeExecutableSchema = require('graphql-tools').makeExecutableSchema,
   plugins = [
     require('./plugins/security'),
+    require('./plugins/profile'),
     require('./plugins/company_financial'),
     require('./plugins/company_key_metrics'),
     require('./plugins/stock_price'),
+    require('./plugins/major_indexes'),
+    require('./plugins/sector_performance'),
     require('./plugins/scalars')
   ]
 

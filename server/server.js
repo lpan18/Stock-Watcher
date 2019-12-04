@@ -3,11 +3,9 @@ const express = require('express'),
   config = require('config'),
   voyagerMiddleware = require('graphql-voyager/middleware').express,
   { ApolloServer } = require('apollo-server-express'),
-  { version } = require('../package.json'),
+  { version } = require('./package.json'),
   contextHelper = require('./helpers/context_helper'),
-  winston = require('winston'),
   executableSchema = require("./schema"),
-  bodyParser = require('body-parser'),
   R = require('ramda')
 
 

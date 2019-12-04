@@ -1,0 +1,10 @@
+extend type Security {
+  major_indexes:[MajorIndex]
+}
+
+type MajorIndex {
+  ticker: String
+  changes: Float
+  price: Float
+  indexName: String
+}
