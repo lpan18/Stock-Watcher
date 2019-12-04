@@ -3,15 +3,16 @@ import { Button } from "react-native-elements"
 import { ScrollView, StyleSheet, View, Text } from "react-native"
 import { Table, Rows } from 'react-native-table-component';
 
-import Touchable from 'react-native-platform-touchable';
-import * as WebBrowser from 'expo-web-browser';
+// import Touchable from 'react-native-platform-touchable';
+// import * as WebBrowser from 'expo-web-browser';
 
 import { useQuery } from "@apollo/react-hooks"
-import { GET_PROFILE, GET_STOCK_INTRADAY_PRICE, GET_STOCK_DAILY_PRICE } from "../queries"
+import { GET_PROFILE} from "../queries"
+import IntradayPriceChart from "./IntradayPriceChart"
 
 export default function StockDetail(props) {
     const symbol = "AA";//props.navigation.getParam('symbol');
-    const [range, setRange] = useState("");
+    const [range, setRange] = useState("1D");
     const handlePressAdd = () => {
         console.log(symbol + "is pressed");
     };
@@ -19,33 +20,10 @@ export default function StockDetail(props) {
     const { loading: loadingProfile, error: errorProfile, data: dataProfile } = useQuery(GET_PROFILE, {
         variables: { symbol: "AA" }
     });
-    const { loading: loadingIntradayPrice, error: errorIntradayPrice, data: dataIntradayPrice } = useQuery(GET_STOCK_INTRADAY_PRICE, {
-        variables: { symbol: symbol }
-    });
-
-    let intradayPrices = [];
-    let tableData = [];
-    if (!loadingIntradayPrice) {
-        intradayPrices = dataIntradayPrice.security.stock_price.intraday.prices;
-        tableData = [
-            ['Open', intradayPrices[0].open, 'Close', intradayPrices[0].close,'xxxxxx','xxxxxx','xxxxxx'],
-            ['High', intradayPrices[0].high, 'Volume', intradayPrices[0].volume,'xxxxxx','xxxxxx','xxxxxx'],
-            ['Low', intradayPrices[0].low, 'Mkt Cap', intradayPrices[0].volume,'xxxxxx','xxxxxx','xxxxxx'],
-        ]
-    }
-    // const { loading:loadingDailyPrice, error:errorDailyPrice, data:dataDailyPrice } = useQuery(GET_STOCK_DAILY_PRICE, {
-    //     variables: { symbol: symbol }
-    // });
 
     if (errorProfile) {
         return <Text>Get Profile Error! {errorProfile.message}</Text>;
     }
-    if (errorIntradayPrice) {
-        return <Text>Get Intraday Stock Price Error! {errorIntradayPrice.message}</Text>;
-    }
-    // if (errorProfile) {
-    //     return <Text>Get Daily Stock Price Error! {errorDailyPrice.message}</Text>;
-    // }
 
     return (
         <ScrollView style={styles.container}>
@@ -59,17 +37,21 @@ export default function StockDetail(props) {
                             </Text>
                         </View>
                         <Button buttonStyle={styles.addBtn} raised onPress={handlePressAdd} title="Watch">Watch</Button>
-                        <View style={styles.bottomLine} />
                     </View>
+                    <View style={styles.bottomLine} />
                 </View>)}
-            {loadingIntradayPrice ? <Text /> : (
-                <ScrollView horizontal={true}>
-                    <View>
-                        <Table borderStyle={{ borderWidth: 0, borderColor: '#C1C0B9' }}>
-                            <Rows data={tableData} widthArr={[50,100,100,100,100,100]} style={styles.row} textStyle={styles.text} />
-                        </Table>
-                    </View>
-                </ScrollView>)}
+            <View style={styles.bottomLine} />
+            <Text style={{height:10}}></Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Button buttonStyle={styles.rangeBtn} title="1D">1D</Button>
+                <Button buttonStyle={styles.rangeBtn} title="1W">1W</Button>
+                <Button buttonStyle={styles.rangeBtn} title="1M">1M</Button>
+                <Button buttonStyle={styles.rangeBtn} title="3M">3M</Button>
+                <Button buttonStyle={styles.rangeBtn} title="6M">6M</Button>
+                <Button buttonStyle={styles.rangeBtn} title="1Y">1Y</Button>
+            </View>
+            <Text style={{height:10}}></Text>
+            <IntradayPriceChart symbol={symbol} range={range} />
         </ScrollView >
     );
 }
@@ -104,15 +86,16 @@ const styles = StyleSheet.create({
     },
     addBtn: {
         width: 70,
+        height: 40
+    },
+    rangeBtn: {
+        marginLeft:5,
+        marginRight:5,
+        width: 50,
+        height: 40
     },
     bottomLine: {
-        borderBottomColor: 'black',
+        borderBottomColor: '#C1C0B9',
         borderBottomWidth: 1,
     },
-    row: { 
-        height: 28 
-    },
-    text: { 
-        textAlign: 'center' 
-    }
 });
