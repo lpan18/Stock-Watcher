@@ -4,51 +4,31 @@ import { VictoryChart, VictoryTheme, VictoryBar, VictoryLine, VictoryArea, Victo
 
 import { useQuery } from "@apollo/react-hooks"
 import moment from 'moment'
+import 'moment-timezone'
 import { GET_STOCK_INTRADAY_PRICE, GET_STOCK_DAILY_PRICE } from "../queries"
 import ValuesTable from "./ValuesTable"
 
 export default function IntradayPriceChart(props) {
   // console.log("symbol: "+props.symbol+"; range: "+props.range)
-
+  // const current_date = moment().tz("America/New_York").format("YYYY-MM-DD"); 
   const { loading: loadingIntradayPrice, error: errorIntradayPrice, data: dataIntradayPrice } = useQuery(GET_STOCK_INTRADAY_PRICE, {
-    variables: { symbol: "AAPL" }
+    variables: { symbol: "AA" }
   });
   let intradayPrices = [];
   let chartData = [];
-  // if (!loadingIntradayPrice) {
-  //   intradayPrices = dataIntradayPrice.security.stock_price.intraday.prices;
-  //   for (let i = 0; i < 5; i++) {
-  //     chartData.push(
-  //       {
-  //         time: intradayPrices[i].datetime,
-  //         price: intradayPrices[i].close
-  //       }
-  //     )
-  //   }
-  // }
-  // console.log(chartData)
-  chartData= [
-     {
-      "date": "16:00:00",
-      "price": "259.5200",
-    },
-     {
-      "date": "15:55:00",
-      "price": "259.2400",
-    },
-     {
-      "date": "15:50:00",
-      "price": "258.8200",
-    },
-     {
-      "date": "15:45:00",
-      "price": "258.6610",
-    },
-     {
-      "date": "15:40:00",
-      "price": "258.5900",
-    },
-  ]
+  if (!loadingIntradayPrice) {
+    intradayPrices = dataIntradayPrice.security.stock_price.intraday.prices;
+    // the entries of last 24 hours
+    for (let i = 0; i < 78; i++) {
+      chartData.push(
+        {
+          time: moment(intradayPrices[i].datetime).format('h:mm'),
+          price: Number(intradayPrices[i].close)
+        }
+      )
+    }
+  }
+  chartData = chartData.reverse();
   if (errorIntradayPrice) {
     return <Text>Get Intraday Stock Price Error! {errorIntradayPrice.message}</Text>;
   }
@@ -64,24 +44,34 @@ export default function IntradayPriceChart(props) {
     <View style={styles.container}>
       {loadingIntradayPrice ? <Text /> : (
         <View style={{ alignItems: 'center', flex: 1 }}>
-          <VictoryChart width={350} theme={VictoryTheme.material} scale={{ x: "time" }}>
-          <VictoryAxis
-              tickFormat={(x) => moment(x).format('h:mm')}
+          <VictoryChart theme={VictoryTheme.material}>
+            <VictoryAxis
+              fixLabelOverlap={true}
+              tickFormat={(x) => x
+                // {if (x.split(':')[1] == '00') {
+                //   return x
+                // };}
+              }
               style={{
-                axisLabel: { fontSize: 5 },
-                ticks: { stroke: '#ccc' },
-                tickLabels: { fontSize: 10, padding: 1, angle:45, verticalAnchor: "middle", textAnchor:'start' },
-                grid: { stroke: "#fafafa", strokeWidth: 0.8 }
+                tickLabels: { fontSize: 10, padding: 1 },
+                // ticks: {
+                //   size: ({ tick }) => {
+                //     const tickSize =
+                //       x.split(':')[1] == '00' === 0 ? 10 : 5;
+                //     return tickSize;
+                //   },
+                //   stroke: "black",
+                //   strokeWidth: 1
+                // },
               }}
             />
             <VictoryAxis dependentAxis
               tickFormat={(y) => y}
               style={{
-                grid: { stroke: "#fafafa", strokeWidth: 0.8 },
                 tickLabels: { fontSize: 10, padding: 1 },
               }}
             />
-            <VictoryLine data={chartData} x="time" y="price" labels={({ datum }) => datum.y}/>
+            <VictoryLine data={chartData} x="time" y="price" />
           </VictoryChart>
           {/* <ValuesTable latestPrice={intradayPrices[0]} /> */}
         </View>
