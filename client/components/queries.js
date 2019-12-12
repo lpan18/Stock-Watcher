@@ -45,6 +45,25 @@ query Security($symbol: String!) {
     }
 `
 
+export const GET_STOCK_INTRADAY_H_PRICE = gql`
+query Security($symbol: String!) {
+    security(symbol: $symbol) {
+      stock_price {
+        intraday_h{
+        prices{
+          open
+          high
+          low
+          close
+          volume
+          datetime
+        }
+      }
+    }
+      }
+    }
+`
+
 export const GET_STOCK_DAILY_PRICE = gql`
 query Security($symbol: String!) {
     security(symbol: $symbol) {

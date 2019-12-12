@@ -1,81 +1,152 @@
-import React from "react"
-import { StyleSheet, View, Text } from "react-native"
-import { VictoryChart, VictoryTheme, VictoryBar, VictoryLine, VictoryArea, VictoryAxis, VictoryTooltip } from "victory-native";
-
-import { useQuery } from "@apollo/react-hooks"
+import React from 'react'
+import { StyleSheet, View, Text } from 'react-native'
+import { VictoryChart, VictoryTheme, VictoryLine, VictoryAxis, VictoryVoronoiContainer } from 'victory-native';
+import * as R from 'ramda'
+import { useQuery } from '@apollo/react-hooks'
 import moment from 'moment'
 import 'moment-timezone'
-import { GET_STOCK_INTRADAY_PRICE, GET_STOCK_DAILY_PRICE } from "../queries"
-import ValuesTable from "./ValuesTable"
+import { GET_STOCK_INTRADAY_PRICE, GET_STOCK_INTRADAY_H_PRICE, GET_STOCK_DAILY_PRICE } from '../queries'
+import ValuesTable from './ValuesTable'
 
 export default function IntradayPriceChart(props) {
-  // console.log("symbol: "+props.symbol+"; range: "+props.range)
-  // const current_date = moment().tz("America/New_York").format("YYYY-MM-DD"); 
-  const { loading: loadingIntradayPrice, error: errorIntradayPrice, data: dataIntradayPrice } = useQuery(GET_STOCK_INTRADAY_PRICE, {
-    variables: { symbol: "AA" }
-  });
-  let intradayPrices = [];
-  let chartData = [];
-  if (!loadingIntradayPrice) {
-    intradayPrices = dataIntradayPrice.security.stock_price.intraday.prices;
-    // the entries of last 24 hours
-    for (let i = 0; i < 78; i++) {
-      chartData.push(
-        {
-          time: moment(intradayPrices[i].datetime).format('h:mm'),
-          price: Number(intradayPrices[i].close)
-        }
-      )
+
+  const RANGE_QUERY_MAPPING = {
+    // Range, Query, Limit, TickFunction
+    '1D': [GET_STOCK_INTRADAY_PRICE, 'intraday', 78, XTickFunc_1D],
+    '1W': [GET_STOCK_INTRADAY_H_PRICE, 'intraday_h', 42, XTickFunc_1W],
+    '1M': [GET_STOCK_DAILY_PRICE, 'daily', 22, XTickFunc_1M_3M],
+    '3M': [GET_STOCK_DAILY_PRICE, 'daily', 66, XTickFunc_1M_3M],
+    '6M': [GET_STOCK_DAILY_PRICE, 'daily', 130, XTickFunc_6M_1Y],
+    '1Y':[GET_STOCK_DAILY_PRICE, 'daily', 260, XTickFunc_6M_1Y],
+  }
+
+  function XTickFunc_1D(x) {
+    const t = moment(x).format('h:mm');
+    if (t.split(':')[1] == '00') {
+      return t;
+    };
+  }
+
+  function XTickFunc_1W(x) {
+    if (x.split(' ')[1] == '09:30:00') {
+      return x.split(' ')[0].substring(x.indexOf('-') + 1);
     }
   }
-  chartData = chartData.reverse();
-  if (errorIntradayPrice) {
-    return <Text>Get Intraday Stock Price Error! {errorIntradayPrice.message}</Text>;
-  }
-  // const { loading:loadingDailyPrice, error:errorDailyPrice, data:dataDailyPrice } = useQuery(GET_STOCK_DAILY_PRICE, {
-  //     variables: { symbol: symbol }
-  // });
 
-  // if (errorProfile) {
-  //     return <Text>Get Daily Stock Price Error! {errorDailyPrice.message}</Text>;
-  // }
+  function XTickFunc_1M_3M(x) {
+    return x.substring(x.indexOf('-') + 1);
+  }
+
+  function XTickFunc_6M_1Y(x) {
+    if(tickDateList.length > 0){
+      if(tickDateList.includes(x)){
+        return moment().month(x.split('-')[1]).format("MMM");
+      }
+    }
+  }
+
+  function findTickDateList(prices) {
+    let currMonth = prices[0].datetime.split('-')[1];
+    let delta = props.range == '6M'? 6: 12
+    let startMonth = currMonth + delta
+    if(props.range == '6M' && currMonth >= 7) {
+      startMonth = currMonth - delta
+    }
+    let revPrices = prices.slice().reverse(); // .reverse() in-place reversing
+    let tickDateList = [];
+    for (let i = prices.length - RANGE_QUERY_MAPPING[props.range][2]; i < prices.length; i++) {
+      if (revPrices[i].datetime.split('-')[1] == startMonth) {
+        tickDateList.push(revPrices[i].datetime);
+        startMonth = startMonth + 1;
+        if (startMonth > 12) {
+          startMonth = startMonth - 12;
+        }
+      }
+    };
+    console.log(tickDateList)
+    return tickDateList;
+  }
+
+  // const current_date = moment().tz('America/New_York').format('YYYY-MM-DD'); 
+  const { loading, error, data } = useQuery(RANGE_QUERY_MAPPING[props.range][0], {
+    variables: { symbol: props.symbol }
+  });
+
+  if (loading) {
+    return <Text>Loading ...</Text>;
+  }
+  if (error) {
+    return <Text>Get Intraday Stock Price Error! {error.message}</Text>;
+  }
+
+  let prices = [];
+  let chartData = [];
+  let tickDateList = [];
+  if (!R.isNil(data.security.stock_price[RANGE_QUERY_MAPPING[props.range][1]].prices)) {
+    prices = data.security.stock_price[RANGE_QUERY_MAPPING[props.range][1]].prices;
+  } else {
+    return <Text>Loading ...</Text>;
+  }
+  if (props.range == '6M' || props.range == '1Y') {
+    tickDateList = findTickDateList(prices);
+  }
+
+  // the entries of last 24 hours
+  const count = RANGE_QUERY_MAPPING[props.range][2];
+  for (let i = 0; i < count; i++) {
+    chartData.push(
+      {
+        time: prices[i].datetime, //moment(prices[i].datetime).format('h:mm'),
+        price: Number(prices[i].close)
+      }
+    )
+  }
+  chartData = chartData.reverse();
 
   return (
     <View style={styles.container}>
-      {loadingIntradayPrice ? <Text /> : (
-        <View style={{ alignItems: 'center', flex: 1 }}>
-          <VictoryChart theme={VictoryTheme.material}>
-            <VictoryAxis
-              fixLabelOverlap={true}
-              tickFormat={(x) => x
-                // {if (x.split(':')[1] == '00') {
-                //   return x
-                // };}
-              }
-              style={{
-                tickLabels: { fontSize: 10, padding: 1 },
-                // ticks: {
-                //   size: ({ tick }) => {
-                //     const tickSize =
-                //       x.split(':')[1] == '00' === 0 ? 10 : 5;
-                //     return tickSize;
-                //   },
-                //   stroke: "black",
-                //   strokeWidth: 1
-                // },
+      <View style={{ alignItems: 'center', flex: 1 }}>
+        <VictoryChart
+          containerComponent={
+            <VictoryVoronoiContainer
+              labels={({ datum }) => {
+                return datum.time + '\n' + datum.price
               }}
             />
-            <VictoryAxis dependentAxis
-              tickFormat={(y) => y}
-              style={{
-                tickLabels: { fontSize: 10, padding: 1 },
-              }}
-            />
-            <VictoryLine data={chartData} x="time" y="price" />
-          </VictoryChart>
-          {/* <ValuesTable latestPrice={intradayPrices[0]} /> */}
-        </View>
-      )}
+          }
+        >
+          <VictoryAxis
+            fixLabelOverlap={true}
+            tickFormat={RANGE_QUERY_MAPPING[props.range][3]}
+            style={{
+              axis: { stroke: 'grey' },
+              tickLabels: { fontSize: 12, padding: 1, stroke: 'grey' },
+              grid: {
+                stroke: x => { if (x.text != undefined) return 'grey' },
+                strokeDasharray: '10, 5'
+              },
+            }}
+          />
+          <VictoryAxis dependentAxis
+            tickFormat={(y) => y}
+            style={{
+              axis: { stroke: 'grey' },
+              tickLabels: { fontSize: 12, padding: 2, stroke: 'grey' },
+              grid: {
+                stroke: 'grey',
+                strokeDasharray: '10, 5'
+              },
+            }}
+          />
+          <VictoryLine data={chartData} x='time' y='price'
+            style={{
+              data: { stroke: '#c43a31' },
+              parent: { border: '1px solid black' }
+            }}
+          />
+        </VictoryChart>
+        <ValuesTable latestPrice={prices[0]} />
+      </View>
     </View>
   );
 }
@@ -83,8 +154,7 @@ export default function IntradayPriceChart(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f5fcff"
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });

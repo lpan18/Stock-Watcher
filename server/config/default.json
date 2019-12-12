@@ -21,9 +21,14 @@
             "interval": "5min",
             "outputsize": "compact"
         },
+        "intraday_h": {
+            "url": "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY",
+            "interval": "60min",
+            "outputsize": "compact"
+        },
         "daily": {
             "url": "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY",
-            "outputsize": "compact"
+            "outputsize": "full"
         }
     },
     "major_indexes": {

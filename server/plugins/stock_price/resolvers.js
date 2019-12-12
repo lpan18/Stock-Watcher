@@ -42,6 +42,26 @@ const dailyPriceResolver = (parent, args, context, info) => {
     .catch(() => null);
 };
 
+const intradayHPriceResolver = (parent, args, context, info) => {
+  const interval = config.stock_price.intraday_h.interval,
+    outputsize = config.stock_price.intraday_h.outputsize,
+    url = stockPriceHelper.stockIntradayURL(parent.symbol, interval, outputsize);
+  return context
+    .fetch(url)
+    .then(response => {
+      const last_refreshed_time = dig(response || {}, 'Meta Data')['3. Last Refreshed'];
+      const time_zone = dig(response || {}, 'Meta Data')['6. Time Zone'];
+      let prices_list = dig(response || {})[`Time Series (${interval})`];
+      const keys = Object.keys(prices_list);
+      // Append datetime to prices_list obj
+      for (var i = 0; i < keys.length; i++) {
+        prices_list[keys[i]] = { ...prices_list[keys[i]], ...{ '6. datetime': keys[i] } };
+      }
+      return formatResponse(last_refreshed_time, time_zone, Object.values(prices_list))
+    })
+    .catch(() => null);
+};
+
 const formatResponse = (last_refreshed_time, time_zone, prices) => {
   return {
     last_refreshed: last_refreshed_time,
@@ -71,6 +91,7 @@ module.exports = {
   },
   StockPrice: {
     intraday: (parent, args, context) => { return intradayPriceResolver(parent, args, context) },
+    intraday_h: (parent, args, context) => { return intradayHPriceResolver(parent, args, context) },
     daily: (parent, args, context) => { return dailyPriceResolver(parent, args, context) }
   }
 };

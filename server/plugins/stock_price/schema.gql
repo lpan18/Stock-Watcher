@@ -4,6 +4,7 @@ extend type Security {
 
 type StockPrice {
   intraday: Price
+  intraday_h: Price
   daily: Price
 }
 
