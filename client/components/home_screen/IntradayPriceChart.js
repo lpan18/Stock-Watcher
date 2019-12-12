@@ -11,14 +11,18 @@ import ValuesTable from './ValuesTable'
 export default function IntradayPriceChart(props) {
 
   const RANGE_QUERY_MAPPING = {
-    // Range, Query, Limit, TickFunction
-    '1D': [GET_STOCK_INTRADAY_PRICE, 'intraday', 78, XTickFunc_1D],
-    '1W': [GET_STOCK_INTRADAY_H_PRICE, 'intraday_h', 42, XTickFunc_1W],
-    '1M': [GET_STOCK_DAILY_PRICE, 'daily', 22, XTickFunc_1M_3M],
-    '3M': [GET_STOCK_DAILY_PRICE, 'daily', 66, XTickFunc_1M_3M],
-    '6M': [GET_STOCK_DAILY_PRICE, 'daily', 130, XTickFunc_6M_1Y],
-    '1Y':[GET_STOCK_DAILY_PRICE, 'daily', 260, XTickFunc_6M_1Y],
+    // Range, Query, Limit, TickFunction, fixLabelOverlap
+    '1D': [GET_STOCK_INTRADAY_PRICE, 'intraday', 78, XTickFunc_1D, false],
+    '1W': [GET_STOCK_INTRADAY_H_PRICE, 'intraday_h', 42, XTickFunc_1W, false],
+    '1M': [GET_STOCK_DAILY_PRICE, 'daily', 22, XTickFunc_1M_3M, true],
+    '3M': [GET_STOCK_DAILY_PRICE, 'daily', 66, XTickFunc_1M_3M, true],
+    '6M': [GET_STOCK_DAILY_PRICE, 'daily', 130, XTickFunc_6M_1Y, false],
+    '1Y':[GET_STOCK_DAILY_PRICE, 'daily', 260, XTickFunc_6M_1Y, false],
   }
+
+  let tickDateList = [];
+  let prices = [];
+  let chartData = [];
 
   function XTickFunc_1D(x) {
     const t = moment(x).format('h:mm');
@@ -40,20 +44,19 @@ export default function IntradayPriceChart(props) {
   function XTickFunc_6M_1Y(x) {
     if(tickDateList.length > 0){
       if(tickDateList.includes(x)){
-        return moment().month(x.split('-')[1]).format("MMM");
+        return moment(x.split('-')[1], 'M').format('MMM');
       }
     }
   }
 
   function findTickDateList(prices) {
-    let currMonth = prices[0].datetime.split('-')[1];
+    let currMonth = Number(prices[0].datetime.split('-')[1]);
     let delta = props.range == '6M'? 6: 12
-    let startMonth = currMonth + delta
+    let startMonth = currMonth
     if(props.range == '6M' && currMonth >= 7) {
       startMonth = currMonth - delta
     }
     let revPrices = prices.slice().reverse(); // .reverse() in-place reversing
-    let tickDateList = [];
     for (let i = prices.length - RANGE_QUERY_MAPPING[props.range][2]; i < prices.length; i++) {
       if (revPrices[i].datetime.split('-')[1] == startMonth) {
         tickDateList.push(revPrices[i].datetime);
@@ -63,8 +66,6 @@ export default function IntradayPriceChart(props) {
         }
       }
     };
-    console.log(tickDateList)
-    return tickDateList;
   }
 
   // const current_date = moment().tz('America/New_York').format('YYYY-MM-DD'); 
@@ -79,16 +80,13 @@ export default function IntradayPriceChart(props) {
     return <Text>Get Intraday Stock Price Error! {error.message}</Text>;
   }
 
-  let prices = [];
-  let chartData = [];
-  let tickDateList = [];
   if (!R.isNil(data.security.stock_price[RANGE_QUERY_MAPPING[props.range][1]].prices)) {
     prices = data.security.stock_price[RANGE_QUERY_MAPPING[props.range][1]].prices;
   } else {
     return <Text>Loading ...</Text>;
   }
   if (props.range == '6M' || props.range == '1Y') {
-    tickDateList = findTickDateList(prices);
+    findTickDateList(prices);
   }
 
   // the entries of last 24 hours
@@ -102,7 +100,6 @@ export default function IntradayPriceChart(props) {
     )
   }
   chartData = chartData.reverse();
-
   return (
     <View style={styles.container}>
       <View style={{ alignItems: 'center', flex: 1 }}>
@@ -116,7 +113,7 @@ export default function IntradayPriceChart(props) {
           }
         >
           <VictoryAxis
-            fixLabelOverlap={true}
+            fixLabelOverlap={RANGE_QUERY_MAPPING[props.range][4]}
             tickFormat={RANGE_QUERY_MAPPING[props.range][3]}
             style={{
               axis: { stroke: 'grey' },
