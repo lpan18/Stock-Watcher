@@ -6,7 +6,9 @@ const express = require('express'),
   { version } = require('./package.json'),
   contextHelper = require('./helpers/context_helper'),
   executableSchema = require("./schema"),
-  R = require('ramda')
+  R = require('ramda');
+  require('dotenv').config()
+
 
 
 // const logger = winston.createLogger({

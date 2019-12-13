@@ -20,7 +20,7 @@ export default function StockDetail(props) {
         { id: 4, title: "3M" },
         { id: 5, title: "6M" },
         { id: 6, title: "1Y" }
-      ]
+    ]
     const handlePressAdd = () => {
         console.log(symbol + "is pressed");
     };
@@ -49,30 +49,24 @@ export default function StockDetail(props) {
                             </Text>
                         </Text>
                     </View>
-                    <Button buttonStyle={styles.addBtn} raised onPress={handlePressAdd} title="Watch">Watch</Button>
+                    <Button buttonStyle={styles.addBtn} raised onPress={handlePressAdd} title="ADD">ADD</Button>
                 </View>
                 <View style={styles.bottomLine} />
             </View>
             <View style={styles.bottomLine} />
             <Text style={{ height: 10 }}></Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            {rangeBtns.map(rangeBtn => {
-            return (
-              <Button
-              buttonStyle={styles.rangeBtn}
-              key={rangeBtn.id}
-                id={rangeBtn.id}
-                title={rangeBtn.title}
-                onPress={() =>handlePressRangeBtn(rangeBtn.title)}
-              />
-            );
-          })}
-                {/* <Button buttonStyle={styles.rangeBtn}  title="1D" onPress={handlePressRangeBtn(Button.title)}>1D</Button>
-                <Button buttonStyle={styles.rangeBtn} title="1W" onPress={handlePressRangeBtn(Button.title)} >1W</Button> */}
-                {/* <Button buttonStyle={styles.rangeBtn} onPress={handlePressRangeBtn(title)} title="1M">1M</Button>
-                <Button buttonStyle={styles.rangeBtn} onPress={handlePressRangeBtn(title)} title="3M">3M</Button>
-                <Button buttonStyle={styles.rangeBtn} onPress={handlePressRangeBtn(title)} title="6M">6M</Button>
-                <Button buttonStyle={styles.rangeBtn} onPress={handlePressRangeBtn(title)} title="1Y">1Y</Button> */}
+                {rangeBtns.map(rangeBtn => {
+                    return (
+                        <Button
+                            buttonStyle={styles.rangeBtn}
+                            key={rangeBtn.id}
+                            id={rangeBtn.id}
+                            title={rangeBtn.title}
+                            onPress={() => handlePressRangeBtn(rangeBtn.title)}
+                        />
+                    );
+                })}
             </View>
             <Text style={{ height: 10 }}></Text>
             <IntradayPriceChart symbol={symbol} range={range} />
