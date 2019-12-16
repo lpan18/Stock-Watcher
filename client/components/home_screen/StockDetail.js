@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Button } from "react-native-elements"
 import { ScrollView, StyleSheet, View, Text } from "react-native"
-import { Table, Rows } from 'react-native-table-component';
+import { Table, Rows } from 'react-native-table-component'
 
 // import Touchable from 'react-native-platform-touchable';
 // import * as WebBrowser from 'expo-web-browser';

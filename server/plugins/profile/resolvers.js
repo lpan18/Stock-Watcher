@@ -16,7 +16,7 @@ const profileResolver = (parent, args, context) => {
 
 module.exports = {
   Security: {
-    profile: (parent, args, context) => { return profileResolver(parent, args, context) }
+    profile: profileResolver
   }
 };
 

@@ -1,6 +1,7 @@
 {
     "port": 4000,
     "api_key": "NN650RBZE5V154LW",
+    "jwt_secret": "test",
     "company": {
         "profile": {
             "url": "https://financialmodellingprep.com/api/v3/company/profile"

@@ -1,0 +1,27 @@
+type User {
+  jwt: String
+  user_id: Int
+  name: String
+  email: String
+  password: String
+  avatar: String
+  watchlist: [Security]
+  sys_create_time: DateTime
+  sys_update_time: DateTime
+  sys_delete_time: DateTime
+}
+
+extend type Query {
+  login(
+    email: String!
+    password: String!
+  ): User
+}
+
+extend type Mutation {
+  signup(
+    email: String!
+    name: String!
+    password: String!
+  ): User
+}

@@ -1,15 +1,14 @@
+require('dotenv').config()
 const express = require('express'),
   path = require('path'),
   config = require('config'),
+  expressJwt = require('express-jwt'),
   voyagerMiddleware = require('graphql-voyager/middleware').express,
   { ApolloServer } = require('apollo-server-express'),
   { version } = require('./package.json'),
   contextHelper = require('./helpers/context_helper'),
   executableSchema = require("./schema"),
   R = require('ramda');
-  require('dotenv').config()
-
-
 
 // const logger = winston.createLogger({
 //   level: 'info',
@@ -33,8 +32,27 @@ const server = new ApolloServer({
 
 const app = express();
 
+const authentication = expressJwt({
+  credentialsRequired: false,
+  secret: config.jwt_secret,
+  requestProperty: 'context.user',
+  getToken: (req) => {
+    // Do not allow authentication token to be passed as query parameter in GraphQL /GET for security reasons
+    // Only POST is allowed to pass authentication token in variables
+    let variables = req.body && req.body.variables;
+    let authorizations = (req.headers && req.headers.authorization || '').split(' ');
+    // console.log(req.headers)
+    if (authorizations.length === 2 && authorizations[0] === 'Bearer') {
+      return authorizations[1];
+    }
+    return variables && variables.token;
+  }
+});
+
+
 app.use('/voyager', voyagerMiddleware({ endpointUrl: '/graphql?voyager' }));
 app.use('/health', (req, res) => res.send('ok'));
+app.use('/graphql', authentication);
 app.use('/graphql', (req, res, next) => {
   contextHelper.createContext(req);
   next();
