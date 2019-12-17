@@ -4,6 +4,7 @@ const requireText = require('require-text'),
   // addDirectiveResolveFunctionsToSchema = require('graphql-directive')
   // .addDirectiveResolveFunctionsToSchema,
   plugins = [
+    require('./plugins/meta'),
     require('./plugins/security'),
     require('./plugins/profile'),
     require('./plugins/company_financial'),

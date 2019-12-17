@@ -79,11 +79,10 @@ export default function IntradayPriceChart(props) {
       }
     };
   }
-
+  console.log(data.security.stock_price)
   if (!R.isNil(data.security.stock_price[RANGE_QUERY_MAPPING[props.range][1]])) {
     prices = data.security.stock_price[RANGE_QUERY_MAPPING[props.range][1]].prices;
   } else {
-    console.log("bbbb")
     return <Text>Loading ...</Text>;
   }
   if (props.range == '6M' || props.range == '1Y') {

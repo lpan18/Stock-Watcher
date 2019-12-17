@@ -31,7 +31,6 @@ export default function SignIn({ navigation }) {
             password: values.password
         });
     };
-    // login(email:"test1@me.com", password:"Password123") {
     try {
         const { loading, error, data } = useQuery(LOGIN, {
             variables: vals
@@ -41,9 +40,10 @@ export default function SignIn({ navigation }) {
         if (error) {
             return <Text>Get User Error! {error.message}</Text>;
         }
-        if (user && user.email == vals.email) {
+        let currentUser = data.login;
+        if (currentUser && currentUser.email == vals.email) {
             navigation.navigate("Main", {
-                user: data.login
+                user: currentUser
             });
         }
     } catch (e) {

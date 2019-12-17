@@ -8,6 +8,7 @@ export default createAppContainer(
     Auth: AuthNavigator,
     Main: MainTabNavigator,
   },
-    { initialRouteName: "Auth" }
+  // { initialRouteName: "Auth" }
+  { initialRouteName: "Main" }
   )
 );

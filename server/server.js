@@ -37,26 +37,28 @@ const authentication = expressJwt({
   secret: config.jwt_secret,
   requestProperty: 'context.user',
   getToken: (req) => {
-    // Do not allow authentication token to be passed as query parameter in GraphQL /GET for security reasons
-    // Only POST is allowed to pass authentication token in variables
-    let variables = req.body && req.body.variables;
     let authorizations = (req.headers && req.headers.authorization || '').split(' ');
-    // console.log(req.headers)
     if (authorizations.length === 2 && authorizations[0] === 'Bearer') {
+      console.log("token" + authorizations[1])
       return authorizations[1];
     }
-    return variables && variables.token;
   }
 });
 
+app.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401).send('invalid token...');
+  }
+});
 
+app.use('/graphql', authentication);
 app.use('/voyager', voyagerMiddleware({ endpointUrl: '/graphql?voyager' }));
 app.use('/health', (req, res) => res.send('ok'));
-app.use('/graphql', authentication);
 app.use('/graphql', (req, res, next) => {
   contextHelper.createContext(req);
   next();
 });
+
 
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));
