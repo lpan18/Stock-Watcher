@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { connect } from 'react-redux'
 import { StyleSheet, View } from "react-native"
 import { Button, Input, Text, Icon } from "react-native-elements"
 import { Formik } from "formik"
@@ -6,6 +7,8 @@ import * as Yup from "yup"
 
 import { useQuery } from "@apollo/react-hooks"
 import { LOGIN } from "../queries"
+
+import * as Action from "../../action";
 
 const SignupSchema = Yup.object().shape({
     password: Yup.string()
@@ -18,9 +21,14 @@ const SignupSchema = Yup.object().shape({
         .email("Invalid email")
 });
 
-export default function SignIn({ navigation }) {
-    const goTo = path => navigation.navigate(path);
+const SignIn = function SignIn(props) {
+    const goTo = path => props.navigation.navigate(path);
     const [vals, setVals] = useState({
+        email: '',
+        password: ''
+    });
+    const [currentUser, setCurrentUser] = useState({
+        id: 0,
         email: '',
         password: ''
     });
@@ -40,11 +48,16 @@ export default function SignIn({ navigation }) {
         if (error) {
             return <Text>Get User Error! {error.message}</Text>;
         }
-        let currentUser = data.login;
-        if (currentUser && currentUser.email == vals.email) {
-            navigation.navigate("Main", {
-                user: currentUser
+        const { signedIn } = props;
+
+        if (data.login && data.login.email == vals.email) {
+            setCurrentUser({
+                id: data.login.user_id,
+                email: vals.email,
+                password: vals.password
             });
+            signedIn(currentUser);
+            props.navigation.navigate("Main");
         }
     } catch (e) {
         console.log(e);
@@ -111,6 +124,12 @@ export default function SignIn({ navigation }) {
         </View>
     );
 };
+
+const mapStateToProps = state => ({
+    user: state
+  });
+  
+export default connect(mapStateToProps, Action)(SignIn);
 
 const styles = StyleSheet.create({
     container: {

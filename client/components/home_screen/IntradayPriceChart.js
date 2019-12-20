@@ -79,7 +79,6 @@ export default function IntradayPriceChart(props) {
       }
     };
   }
-  console.log(data.security.stock_price)
   if (!R.isNil(data.security.stock_price[RANGE_QUERY_MAPPING[props.range][1]])) {
     prices = data.security.stock_price[RANGE_QUERY_MAPPING[props.range][1]].prices;
   } else {

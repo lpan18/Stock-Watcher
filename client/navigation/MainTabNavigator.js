@@ -19,7 +19,6 @@ const HomeStack = createStackNavigator(
     Home: HomeScreen,
     StockDetail: StockDetail
   },
-  // config
   {
     initialRouteName: 'StockDetail',
   }
@@ -85,9 +84,9 @@ SettingsStack.navigationOptions = {
 SettingsStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
-  SettingsStack,
+  HomeStack: HomeStack,
+  LinksStack:LinksStack,
+  SettingsStack:SettingsStack,
 });
 
 tabNavigator.path = '';

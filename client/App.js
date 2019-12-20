@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { Text } from "react-native"
+import { Button } from "react-native-elements"
 import { ApolloClient } from 'apollo-boost'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { createHttpLink } from 'apollo-link-http'
@@ -9,34 +11,44 @@ import * as Font from 'expo-font'
 import { Platform, StatusBar, StyleSheet, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import AppNavigator from './navigation/AppNavigator'
+import store from "./store"
 
-export default function App(props) {
+import { Provider, connect } from 'react-redux'
+
+
+const App = (props) => {
   const client = new ApolloClient({
     link: createHttpLink({ uri: 'http://192.168.0.34:4000/graphql' }),
     cache: new InMemoryCache()
   })
-    
-  const [isLoadingComplete, setLoadingComplete] = useState(false);
 
+  const [isLoadingComplete, setLoadingComplete] = useState(false);
+  // const { sign_in, sign_out } = props;
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return (
-      <ApolloProvider client={client}>
-        <AppLoading
-          startAsync={loadResourcesAsync}
-          onError={handleLoadingError}
-          onFinish={() => handleFinishLoading(setLoadingComplete)}
-        />
-      </ApolloProvider>
-
+      <Provider store={store}>
+        <ApolloProvider client={client}>
+          <AppLoading
+            startAsync={loadResourcesAsync}
+            onError={handleLoadingError}
+            onFinish={() => handleFinishLoading(setLoadingComplete)}
+          />
+        </ApolloProvider>
+      </Provider>
     );
   } else {
     return (
-      <ApolloProvider client={client}>
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />
-        </View>
-      </ApolloProvider>
+      <Provider store={store}>
+        <ApolloProvider client={client}>
+          <View style={styles.container}>
+            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            {/* <Button onPress={() => sign_in()} title = "sign_in"/>
+          <Button onPress={() => sign_out()} title = "sign_out"/> */}
+            {/* <Text>{props.user.name}</Text> */}
+            <AppNavigator />
+          </View>
+        </ApolloProvider>
+      </Provider>
     );
   }
 }
@@ -65,6 +77,17 @@ function handleLoadingError(error) {
 function handleFinishLoading(setLoadingComplete) {
   setLoadingComplete(true);
 }
+
+// const mapStateToProps = state => ({
+//   user: state
+// });
+
+// const ConnectedApp = connect(mapStateToProps, Action)(App);
+
+// const Root = () => {
+//   return <Provider store={store}><ConnectedApp /></Provider>
+// }
+export default App //Root
 
 const styles = StyleSheet.create({
   container: {

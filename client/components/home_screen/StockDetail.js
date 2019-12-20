@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { connect } from 'react-redux'
 import { Button } from "react-native-elements"
 import { ScrollView, StyleSheet, View, Text } from "react-native"
 import { Table, Rows } from 'react-native-table-component'
@@ -10,7 +11,12 @@ import { useQuery } from "@apollo/react-hooks"
 import { GET_PROFILE } from "../queries"
 import IntradayPriceChart from "./IntradayPriceChart"
 
-export default function StockDetail(props) {
+import store from "../../store"
+
+const StockDetail =  function StockDetail(props) {
+    console.log("in stock detail")
+    console.log(props.user)
+    // console.log(store.getState())
     const symbol = "AA";//props.navigation.getParam('symbol');
     const [range, setRange] = useState("1D");
     const rangeBtns = [
@@ -77,6 +83,12 @@ export default function StockDetail(props) {
 StockDetail.navigationOptions = {
     title: 'StockDetail',
 };
+
+const mapStateToProps = state => ({
+    user: state
+  });
+  
+export default connect(mapStateToProps)(StockDetail)
 
 const styles = StyleSheet.create({
     option: {
