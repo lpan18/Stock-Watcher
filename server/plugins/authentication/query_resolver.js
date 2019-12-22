@@ -12,7 +12,7 @@ const logInResolver = async (root, { email, password }, context) => {
     // if (!validPassword) {
     //   throw new Error('Incorrect user name or password');
     // }
-    // user.jwt = jwt.sign({id:user.user_id}, config.jwt_secret);
+    // user.jwt = jwt.sign({id:user.id}, config.jwt_secret);
     // context.user = user;
     return user;
   } catch (error) {

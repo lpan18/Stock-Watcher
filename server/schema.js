@@ -13,7 +13,8 @@ const requireText = require('require-text'),
     require('./plugins/major_indexes'),
     require('./plugins/sector_performance'),
     require('./plugins/scalars'),
-    require('./plugins/authentication')
+    require('./plugins/authentication'),
+    require('./plugins/watch')
   ]
 
 const typeDefs = R.reduce(R.concat, '', R.map(plugin => plugin.schema || '', plugins)) + requireText('./schema.gql', require);

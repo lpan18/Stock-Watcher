@@ -1,11 +1,10 @@
 type User {
   jwt: String
-  user_id: Int
+  id: Int
   name: String
   email: String
   password: String
   avatar: String
-  watchlist: [Security]
   sys_create_time: DateTime
   sys_update_time: DateTime
   sys_delete_time: DateTime

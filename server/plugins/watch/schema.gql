@@ -1,0 +1,10 @@
+extend type User {
+  watchlist: [String]
+}
+
+extend type Mutation {
+  add_watch(
+    id: Int!
+    symbol: String!
+  ): String
+}

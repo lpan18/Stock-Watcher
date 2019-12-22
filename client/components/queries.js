@@ -4,7 +4,7 @@ export const SIGN_UP = gql`
 mutation SignUp($email: String!, $name:String!, $password: String!) {
   signup(email: $email, name:$name, password: $password) {
     jwt
-    user_id
+    id
     name
     email
     password
@@ -14,11 +14,16 @@ mutation SignUp($email: String!, $name:String!, $password: String!) {
   }
 }
 `
+export const ADD_WATCH = gql`
+mutation AddWatch($id: Int!, $symbol:String!) {
+  add_watch(id: $id, symbol:$symbol)
+}
+`
 export const LOGIN = gql`
 query Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
     jwt
-    user_id
+    id
     name
     email
     password

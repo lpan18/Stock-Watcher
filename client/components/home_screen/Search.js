@@ -1,15 +1,29 @@
 import React, { useState } from "react"
 import { SearchBar } from "react-native-elements"
 import { StyleSheet, View, Text } from "react-native"
-import Touchable from 'react-native-platform-touchable';
-import * as WebBrowser from 'expo-web-browser';
+import Touchable from 'react-native-platform-touchable'
+import * as WebBrowser from 'expo-web-browser'
 
 import { useQuery } from "@apollo/react-hooks"
 import { GET_PROFILE } from "../queries"
+// import RNFS from 'react-native-fs'
+var RNFS = require('react-native-fs');
+
+// function getAllSymbols(symbolsFilePath){
+//   var path = RNFS.DocumentDirectoryPath + symbolsFilePath;
+//   console.log(path)
+//   RNFS.readFile(path, 'utf8')
+//   .then((res)=>{
+//     console.log('read file', res);
+//   })
+//   .catch((err) => {
+//     console.log(err.message, err.code);
+//   });
+// }
 
 export default function Search(props) {
   // const { navigate } = props.navigation;
-  const [searchTxt, setSearchTxt] = useState("");
+  const [searchTxt, setSearchTxt] = useState("AAPL");
   // let shouldSkip = false;
   let maxSymbolLength = 6;
   const updateSearchTxt = searchTxt => {
@@ -17,6 +31,9 @@ export default function Search(props) {
       setSearchTxt(searchTxt);
     }
   };
+  const symbolsFilePath = '../../resources/symbol.csv';
+  // getAllSymbols(symbolsFilePath);
+
   const handlePressStock = () => {
     props.navigation.navigate('StockDetail',  {
       symbol: searchTxt
@@ -27,14 +44,14 @@ export default function Search(props) {
   // }else{
   //   shouldSkip = true;
   // }
-  const { loading, error, data } = useQuery(GET_PROFILE, {
-    // skip: shouldSkip,
-    variables: { symbol: searchTxt }
-  });
+  // const { loading, error, data } = useQuery(GET_PROFILE, {
+  //   // skip: shouldSkip,
+  //   variables: { symbol: searchTxt }
+  // });
 
-  if (error) {
-    return <Text>Error! {error.message}</Text>;
-  }
+  // if (error) {
+  //   return <Text>Error! {error.message}</Text>;
+  // }
 
   return (
     <View>
@@ -45,7 +62,7 @@ export default function Search(props) {
         value={searchTxt}
         showCancel
       />
-      {loading || searchTxt == "" ? <Text /> : (
+      {/* {loading || searchTxt == "" ? <Text /> : (
         <View style={styles.stockView}>
         <Text style={styles.symbolText}>Symbols</Text>
         <Touchable onPress={handlePressStock}>
@@ -67,7 +84,7 @@ export default function Search(props) {
         </Touchable>
         </View>
       )
-      }
+      } */}
     </View>
   );
 }

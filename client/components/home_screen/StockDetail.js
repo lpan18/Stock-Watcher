@@ -7,17 +7,16 @@ import { Table, Rows } from 'react-native-table-component'
 // import Touchable from 'react-native-platform-touchable';
 // import * as WebBrowser from 'expo-web-browser';
 
-import { useQuery } from "@apollo/react-hooks"
-import { GET_PROFILE } from "../queries"
+import { useQuery, useMutation } from "@apollo/react-hooks"
+import { GET_PROFILE, ADD_WATCH } from "../queries"
 import IntradayPriceChart from "./IntradayPriceChart"
 
 import store from "../../store"
 
 const StockDetail =  function StockDetail(props) {
-    console.log("in stock detail")
-    console.log(props.user)
     // console.log(store.getState())
-    const symbol = "AA";//props.navigation.getParam('symbol');
+    const user = props.user;
+    const symbol = "AADE";//props.navigation.getParam('symbol');
     const [range, setRange] = useState("1D");
     const rangeBtns = [
         { id: 1, title: "1D" },
@@ -27,8 +26,12 @@ const StockDetail =  function StockDetail(props) {
         { id: 5, title: "6M" },
         { id: 6, title: "1Y" }
     ]
-    const handlePressAdd = () => {
-        console.log(symbol + "is pressed");
+
+    const [addWatchMut] = useMutation(ADD_WATCH);
+
+    const handlePressAdd = async() => {
+        const res = await addWatchMut({ variables: { id: user.id, symbol: symbol}});
+        console.log(res.data.add_watch)
     };
 
     const handlePressRangeBtn = (title) => {
@@ -75,7 +78,7 @@ const StockDetail =  function StockDetail(props) {
                 })}
             </View>
             <Text style={{ height: 10 }}></Text>
-            <IntradayPriceChart symbol={symbol} range={range} />
+            {/* <IntradayPriceChart symbol={symbol} range={range} /> */}
         </View >
     );
 }

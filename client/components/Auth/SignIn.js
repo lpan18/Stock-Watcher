@@ -52,7 +52,7 @@ const SignIn = function SignIn(props) {
 
         if (data.login && data.login.email == vals.email) {
             setCurrentUser({
-                id: data.login.user_id,
+                id: data.login.id,
                 email: vals.email,
                 password: vals.password
             });
