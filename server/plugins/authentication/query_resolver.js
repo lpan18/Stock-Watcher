@@ -2,7 +2,7 @@ const config = require("config"),
   bcrypt = require("bcrypt"),
   jwt = require('jsonwebtoken');
 
-const logInResolver = async (root, { email, password }, context) => {
+const userResolver = async (root, { email, password }, context) => {
   try {
     const user = await context.pool.query(`SELECT * FROM stock.users WHERE email = '${email}'`).then(res => res.rows[0]);
     // if (!user) {
@@ -21,5 +21,5 @@ const logInResolver = async (root, { email, password }, context) => {
 }
 
 module.exports = {
-  login: logInResolver
+  user: userResolver
 };

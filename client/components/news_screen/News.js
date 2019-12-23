@@ -5,7 +5,7 @@ import * as R from 'ramda'
 import { useQuery } from "@apollo/react-hooks"
 import { GET_WATCH } from "../queries"
 
-const getProfiles = async (symbols) => {
+const getNews = async (symbols) => {
   const requests = symbols.map((symbol) => {
     const url = `https://financialmodelingprep.com/api/v3/company/profile/${symbol}`
     return fetch(url)
@@ -38,45 +38,15 @@ export default function Watch(props) {
   }
 
   const handlePressStock = (symbol, companyName) => {
+    console.log(companyName)
     props.navigation.navigate('StockDetails', {
       symbol: symbol,
       companyName: companyName
     })
   }
-  useEffect(() => {
-    if (!error && !loading) {
-      if(data.watchlist.length>0){
-        const watchedSymbols = R.map(x => x.symbol, data.watchlist);
-        getWatchedProfiles(watchedSymbols)  
-      }
-    }
-  }, [data, error, loading])
 
   return (
     <View>
-      {isWatchedLoading ? <Text /> : (
-        <View style={styles.stockView}>
-          <Text style={styles.symbolText}>Watchlist</Text>
-          {watchedData.map(d => (
-            <Touchable onPress={() => handlePressStock(d.symbol, d.profile.companyName)} key={d.symbol}>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <View style={styles.stockView}>
-                  <Text style={styles.stockTitleText}>{d.symbol}
-                  </Text>
-                  <Text style={styles.stockBodyText}>{d.profile.companyName}
-                  </Text>
-                </View>
-                <View style={styles.stockView}>
-                  <Text style={styles.stockTitleText}>{d.profile.price}
-                  </Text>
-                  <Text style={styles.stockBodyText}>{d.profile.changesPercentage}
-                  </Text>
-                </View>
-              </View>
-            </Touchable>
-          ))}
-        </View>
-      )}
     </View>
   );
 }

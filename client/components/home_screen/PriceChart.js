@@ -8,7 +8,7 @@ import 'moment-timezone'
 import { GET_STOCK_INTRADAY_PRICE, GET_STOCK_INTRADAY_H_PRICE, GET_STOCK_DAILY_PRICE } from '../queries'
 import ValuesTable from './ValuesTable'
 
-export default function IntradayPriceChart(props) {
+export default function PriceChart(props) {
 
   const RANGE_QUERY_MAPPING = {
     // Range, Query, Limit, TickFunction, fixLabelOverlap

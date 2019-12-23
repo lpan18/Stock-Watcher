@@ -1,6 +1,6 @@
 const config = require("config")
 
-const getWatchResolver = async (root, { id }, context) => {
+const watchListResolver = async (root, { id }, context) => {
   try {
     const watches = await context.pool.query(`SELECT * FROM stock.watchlist WHERE id = '${id}'`).then(res => res.rows);
     return watches;
@@ -10,5 +10,5 @@ const getWatchResolver = async (root, { id }, context) => {
 }
 
 module.exports = {
-    get_watch: getWatchResolver
+    watchlist: watchListResolver
 };

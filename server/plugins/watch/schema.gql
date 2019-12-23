@@ -1,17 +1,5 @@
-extend type User {
-  watchlist: [String]
-}
-
-type Watch {
-  id: Int
-  symbol: String
-  sys_create_time: DateTime
-  sys_update_time: DateTime
-  sys_delete_time: DateTime
-}
-
 extend type Query {
-  get_watch(
+  watchlist(
     id: Int!
   ): [Watch]
 }
@@ -21,4 +9,12 @@ extend type Mutation {
     id: Int!
     symbol: String!
   ): Watch
+}
+
+type Watch {
+  id: Int
+  symbol: String
+  sys_create_time: DateTime
+  sys_update_time: DateTime
+  sys_delete_time: DateTime
 }

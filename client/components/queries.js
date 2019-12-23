@@ -25,9 +25,9 @@ mutation AddWatch($id: Int!, $symbol:String!) {
   }
 }
 `
-export const LOGIN = gql`
-query Login($email: String!, $password: String!) {
-  login(email: $email, password: $password) {
+export const GET_USER = gql`
+query User($email: String!, $password: String!) {
+  user(email: $email, password: $password) {
     jwt
     id
     name
@@ -40,8 +40,8 @@ query Login($email: String!, $password: String!) {
 }
 `
 export const GET_WATCH = gql`
-query GetWatch($id: Int!){
-  get_watch(id: $id){
+query WatchList($id: Int!){
+  watchlist(id: $id){
     symbol
   }
 }

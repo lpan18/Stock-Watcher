@@ -6,7 +6,7 @@ import { Formik } from "formik"
 import * as Yup from "yup"
 
 import { useQuery } from "@apollo/react-hooks"
-import { LOGIN } from "../queries"
+import { GET_USER } from "../queries"
 
 import * as Action from "../../action";
 
@@ -40,7 +40,7 @@ const SignIn = function SignIn(props) {
         });
     };
     try {
-        const { loading, error, data } = useQuery(LOGIN, {
+        const { loading, error, data } = useQuery(GET_USER, {
             variables: vals
         });
         if (loading) return <Text>Loading ...</Text>;

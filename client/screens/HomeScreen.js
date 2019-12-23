@@ -1,7 +1,7 @@
 import React from "react"
 import { ScrollView, StyleSheet, Button} from 'react-native'
-import Watch from "../components/home_screen/Watch"
 import Search from "../components/home_screen/Search"
+import Watch from "../components/home_screen/Watch"
 
 export default function HomeScreen(props) {
   return (

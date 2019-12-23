@@ -6,7 +6,7 @@ import * as R from 'ramda'
 import SYMBOLS from '../../resources/SYMBOLS'
 
 const getMatchedSymbols = (symbols, searchTxt) => {
-  return R.filter(x => x.startsWith(searchTxt), symbols);//R.map(x => x.symbol, symbolsList));
+  return R.filter(x => x.startsWith(searchTxt), symbols);
 };
 
 const getProfiles = async (symbols) => {
@@ -38,7 +38,8 @@ export default function Search(props) {
   }
 
   const handlePressStock = (symbol, companyName) => {
-    props.navigation.navigate('StockDetail', {
+    console.log(symbol+':'+companyName)
+    props.navigation.navigate('StockDetails', {
       symbol: symbol,
       companyName: companyName
     })

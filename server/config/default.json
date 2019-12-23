@@ -1,6 +1,7 @@
 {
     "port": 4000,
     "api_key": "NN650RBZE5V154LW",
+    "news_key": "c3751d5f7d1e4047bb8f234a8749cab5",
     "jwt_secret": "test",
     "company": {
         "profile": {

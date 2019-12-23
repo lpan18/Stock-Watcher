@@ -12,10 +12,10 @@ import { get } from 'lodash'
 // import * as WebBrowser from 'expo-web-browser';
 // import store from "../../store"
 
-import IntradayPriceChart from "./IntradayPriceChart"
+import PriceChart from "./PriceChart"
 import { printBlockString } from "graphql/language/blockString"
 
-const StockDetail = function StockDetail(props) {
+const StockDetails = function StockDetails(props) {
     const user = { id: 42 };//props.user;
     const symbol = 'A';//props.navigation.getParam('symbol');
     const companyName = 'Alcoa Corporation';//props.navigation.getParam('companyName');
@@ -51,7 +51,7 @@ const StockDetail = function StockDetail(props) {
 
     useEffect(() => {
         if (!error && !loading) {
-            const watchedSymbols = R.map(x => x.symbol, data.get_watch);
+            const watchedSymbols = R.map(x => x.symbol, data.watchlist);
             if (watchedSymbols.includes(symbol)) {
                 setShowAdd(false)
             }
@@ -88,20 +88,20 @@ const StockDetail = function StockDetail(props) {
                 })}
             </View>
             <Text style={{ height: 10 }}></Text>
-            {/* <IntradayPriceChart symbol={symbol} range={range} /> */}
+            {/* <PriceChart symbol={symbol} range={range} /> */}
         </View >
     );
 }
 
-StockDetail.navigationOptions = {
-    title: 'StockDetail',
+StockDetails.navigationOptions = {
+    title: 'StockDetails',
 };
 
 const mapStateToProps = state => ({
     user: state
 });
 
-export default connect(mapStateToProps)(StockDetail)
+export default connect(mapStateToProps)(StockDetails)
 
 const styles = StyleSheet.create({
     option: {
