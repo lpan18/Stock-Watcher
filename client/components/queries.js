@@ -16,7 +16,13 @@ mutation SignUp($email: String!, $name:String!, $password: String!) {
 `
 export const ADD_WATCH = gql`
 mutation AddWatch($id: Int!, $symbol:String!) {
-  add_watch(id: $id, symbol:$symbol)
+  add_watch(id: $id, symbol:$symbol){
+    id
+    symbol
+    sys_create_time
+    sys_update_time
+    sys_delete_time
+  }
 }
 `
 export const LOGIN = gql`

@@ -20,7 +20,7 @@ const HomeStack = createStackNavigator(
     StockDetail: StockDetail
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'StockDetail',
   }
   //   defaultNavigationOptions: {
   //     headerStyle: {

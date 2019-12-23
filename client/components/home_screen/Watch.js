@@ -31,20 +31,19 @@ export default function Watch(props) {
   const [watchedData, setWatchedData] = useState({});
   const [isWatchedLoading, setIsWatchedLoading] = useState(true);
 
-
   const getWatchedProfiles = async (watchedSymbols) => {
     const response = await getProfiles(watchedSymbols);
     setWatchedData(response);
     setIsWatchedLoading(false);
   }
 
-  const handlePressStock = (symbol) => {
-    console.log(symbol)
+  const handlePressStock = (symbol, companyName) => {
+    console.log(companyName)
     props.navigation.navigate('StockDetail', {
-      symbol: symbol
+      symbol: symbol,
+      companyName: companyName
     })
   }
-
   useEffect(() => {
     if (!error && !loading) {
       const watches = data.get_watch;
@@ -59,7 +58,7 @@ export default function Watch(props) {
         <View style={styles.stockView}>
           <Text style={styles.symbolText}>WatchList</Text>
           {watchedData.map(d => (
-            <Touchable onPress={() => handlePressStock(d.symbol)} key={d.symbol}>
+            <Touchable onPress={() => handlePressStock(d.symbol, d.profile.companyName)} key={d.symbol}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <View style={styles.stockView}>
                   <Text style={styles.stockTitleText}>{d.symbol}

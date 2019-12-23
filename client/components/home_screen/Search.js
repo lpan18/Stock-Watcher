@@ -37,9 +37,10 @@ export default function Search(props) {
     };
   }
 
-  const handlePressStock = (symbol) => {
+  const handlePressStock = (symbol, companyName) => {
     props.navigation.navigate('StockDetail', {
-      symbol: symbol
+      symbol: symbol,
+      companyName: companyName
     })
   }
   useEffect(() => {
@@ -67,7 +68,7 @@ export default function Search(props) {
         <View style={styles.stockView}>
           <Text style={styles.symbolText}>Symbols</Text>
           {matchedData.map(d => (
-            <Touchable onPress={() => handlePressStock(d.symbol)} key={d.symbol}>
+            <Touchable onPress={() => handlePressStock(d.symbol, d.profile.companyName)} key={d.symbol}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <View style={styles.stockView}>
                   <Text style={styles.stockTitleText}>{d.symbol}

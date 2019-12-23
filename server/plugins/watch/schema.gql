@@ -3,8 +3,8 @@ extend type User {
 }
 
 type Watch {
-  id: Int,
-  symbol: String,
+  id: Int
+  symbol: String
   sys_create_time: DateTime
   sys_update_time: DateTime
   sys_delete_time: DateTime
@@ -20,5 +20,5 @@ extend type Mutation {
   add_watch(
     id: Int!
     symbol: String!
-  ): String
+  ): Watch
 }
