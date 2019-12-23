@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 75494,
-  "expoServerNgrokUrl": "https://t2-apr.lpan18.client.exp.direct",
-  "packagerNgrokUrl": "https://packager.t2-apr.lpan18.client.exp.direct",
-  "ngrokPid": 75520
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }

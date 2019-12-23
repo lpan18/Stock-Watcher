@@ -21,10 +21,11 @@ const getProfiles = async (symbols) => {
 }
 
 export default function Search(props) {
-  const [searchTxt, setSearchTxt] = useState("AAPL");
-  const [matchedSymbols, setMatchedSymbols] = useState(["AAPL"]);
-  const [data, setData] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
+  const [searchTxt, setSearchTxt] = useState("");
+
+  const [matchedSymbols, setMatchedSymbols] = useState([]);
+  const [matchedData, setMatchedData] = useState({});
+  const [isMatchedLoading, setIsMatchedLoading] = useState(true);
 
   let maxSymbolLength = 6;
   const updateSearchTxt = searchTxt => {
@@ -33,17 +34,18 @@ export default function Search(props) {
       setMatchedSymbols(getMatchedSymbols(SYMBOLS, searchTxt).slice(0, 2)); // slice to 2 to reduce api call, for dev purpose  
     };
   }
-  const handlePressStock = () => {
+
+  const handlePressStock = (symbol) => {
     props.navigation.navigate('StockDetail', {
-      symbol: searchTxt
+      symbol: symbol
     })
   }
-
+console.log("render1")
   useEffect(() => {
-    getProfiles(matchedSymbols).then(res => {
-      setData(res);
-      setIsLoading(false);
-    })
+      getProfiles(matchedSymbols).then(res => {
+        setMatchedData(res);
+        setIsMatchedLoading(false);
+      })  
   }, [matchedSymbols]);
 
   return (
@@ -55,11 +57,11 @@ export default function Search(props) {
         value={searchTxt}
         showCancel
       />
-      {isLoading ? <Text /> : (
+      {isMatchedLoading || matchedData.length == 0 ? <Text /> : (
         <View style={styles.stockView}>
           <Text style={styles.symbolText}>Symbols</Text>
-          {data.map(d => (
-            <Touchable onPress={handlePressStock} key={d.symbol}>
+          {matchedData.map(d => (
+            <Touchable onPress={handlePressStock(d.symbol)} key={d.symbol}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <View style={styles.stockView}>
                   <Text style={styles.stockTitleText}>{d.symbol}
@@ -77,8 +79,7 @@ export default function Search(props) {
             </Touchable>
           ))}
         </View>
-      )
-      }
+      )}
     </View>
   );
 }

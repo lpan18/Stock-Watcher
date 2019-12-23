@@ -33,6 +33,14 @@ query Login($email: String!, $password: String!) {
   }
 }
 `
+export const GET_WATCH = gql`
+query GetWatch($id: Int!){
+  get_watch(id: $id){
+    symbol
+  }
+}
+`
+
 export const GET_PROFILE = gql`
 query Security($symbol: String!) {
     security(symbol: $symbol) {
