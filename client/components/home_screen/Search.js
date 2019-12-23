@@ -24,14 +24,16 @@ export default function Search(props) {
   const [searchTxt, setSearchTxt] = useState("");
 
   const [matchedSymbols, setMatchedSymbols] = useState([]);
-  const [matchedData, setMatchedData] = useState({});
+  const [matchedData, setMatchedData] = useState([]);
   const [isMatchedLoading, setIsMatchedLoading] = useState(true);
 
   let maxSymbolLength = 6;
   const updateSearchTxt = searchTxt => {
-    if (searchTxt.length <= maxSymbolLength) {
-      setSearchTxt(searchTxt);
-      setMatchedSymbols(getMatchedSymbols(SYMBOLS, searchTxt).slice(0, 2)); // slice to 2 to reduce api call, for dev purpose  
+    setSearchTxt(searchTxt);
+    if (!searchTxt) {
+      setMatchedSymbols([])
+    } else if (searchTxt.length <= maxSymbolLength) {
+      setMatchedSymbols(getMatchedSymbols(SYMBOLS, searchTxt).slice(0, 1)); // slice to 2 to reduce api call, for dev purpose  
     };
   }
 
@@ -41,10 +43,15 @@ export default function Search(props) {
     })
   }
   useEffect(() => {
-    getProfiles(matchedSymbols).then(res => {
-      setMatchedData(res);
+    if (matchedSymbols.length == 0) {
+      setMatchedData([]);
       setIsMatchedLoading(false);
-    })
+    } else {
+      getProfiles(matchedSymbols).then(res => {
+        setMatchedData(res);
+        setIsMatchedLoading(false);
+      })
+    }
   }, [matchedSymbols]);
 
   return (
