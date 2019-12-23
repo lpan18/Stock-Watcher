@@ -14,9 +14,8 @@ import IntradayPriceChart from "./IntradayPriceChart"
 import store from "../../store"
 
 const StockDetail =  function StockDetail(props) {
-    // console.log(store.getState())
-    const user = props.user;
-    const symbol = "AADE";//props.navigation.getParam('symbol');
+    const user = {id:42}//props.user;
+    const symbol = "AA"//props.navigation.getParam('symbol');
     const [range, setRange] = useState("1D");
     const rangeBtns = [
         { id: 1, title: "1D" },
@@ -39,7 +38,7 @@ const StockDetail =  function StockDetail(props) {
     };
 
     const { loading: loadingProfile, error: errorProfile, data: dataProfile } = useQuery(GET_PROFILE, {
-        variables: { symbol: "AA" }
+        variables: { symbol: symbol }
     });
 
     if (loadingProfile) return <Text>Loading ...</Text>;

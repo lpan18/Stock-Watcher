@@ -40,12 +40,11 @@ export default function Search(props) {
       symbol: symbol
     })
   }
-console.log("render1")
   useEffect(() => {
-      getProfiles(matchedSymbols).then(res => {
-        setMatchedData(res);
-        setIsMatchedLoading(false);
-      })  
+    getProfiles(matchedSymbols).then(res => {
+      setMatchedData(res);
+      setIsMatchedLoading(false);
+    })
   }, [matchedSymbols]);
 
   return (
@@ -61,7 +60,7 @@ console.log("render1")
         <View style={styles.stockView}>
           <Text style={styles.symbolText}>Symbols</Text>
           {matchedData.map(d => (
-            <Touchable onPress={handlePressStock(d.symbol)} key={d.symbol}>
+            <Touchable onPress={() => handlePressStock(d.symbol)} key={d.symbol}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <View style={styles.stockView}>
                   <Text style={styles.stockTitleText}>{d.symbol}

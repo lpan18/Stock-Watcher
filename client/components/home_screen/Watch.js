@@ -24,33 +24,34 @@ export default function Watch(props) {
     id: 42
   }; // props.user
 
-  const { loading: loadingWatch, error: errorWatch, data: dataWatch } = useQuery(GET_WATCH, {
+  const { loading, error, data } = useQuery(GET_WATCH, {
     variables: { id: user.id }
   });
 
   const [watchedData, setWatchedData] = useState({});
   const [isWatchedLoading, setIsWatchedLoading] = useState(true);
 
-  if (loadingWatch) return <Text>Loading ...</Text>;
 
-  if (errorWatch) {
-    return <Text>Get WatchList Error! {errorWatch.message}</Text>;
+  const getWatchedProfiles = async (watchedSymbols) => {
+    const response = await getProfiles(watchedSymbols);
+    setWatchedData(response);
+    setIsWatchedLoading(false);
   }
-  console.log("render2")
-  const watches = dataWatch.get_watch;
-  const watchedSymbols = R.map(x => x.symbol, watches);
-  if (watchedSymbols.length) {
-    getProfiles(watchedSymbols).then(res => {
-      setWatchedData(res);
-      setIsWatchedLoading(false);
+
+  const handlePressStock = (symbol) => {
+    console.log(symbol)
+    props.navigation.navigate('StockDetail', {
+      symbol: symbol
     })
   }
 
-  const handlePressStock = () => {
-    // props.navigation.navigate('StockDetail', {
-    //   symbol: symbol
-    // })
-  }
+  useEffect(() => {
+    if (!error && !loading) {
+      const watches = data.get_watch;
+      const watchedSymbols = R.map(x => x.symbol, watches);
+      getWatchedProfiles(watchedSymbols)
+    }
+  }, [data, error, loading])
 
   return (
     <View>
@@ -58,7 +59,7 @@ export default function Watch(props) {
         <View style={styles.stockView}>
           <Text style={styles.symbolText}>WatchList</Text>
           {watchedData.map(d => (
-            <Touchable onPress={handlePressStock} key={d.symbol}>
+            <Touchable onPress={() => handlePressStock(d.symbol)} key={d.symbol}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <View style={styles.stockView}>
                   <Text style={styles.stockTitleText}>{d.symbol}
