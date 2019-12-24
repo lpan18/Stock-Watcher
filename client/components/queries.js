@@ -144,8 +144,8 @@ export const GET_STOCK_DAILY_PRICE = gql`
 query Security($symbol: String!) {
     security(symbol: $symbol) {
       stock_price {
-        daily{
-        prices{
+        daily {
+        prices {
           open
           high
           low
@@ -155,6 +155,23 @@ query Security($symbol: String!) {
         }
       }
     }
-      }
+  }
+}
+`
+
+export const GET_KEY_METRICS = gql`
+query Security($symbol: String!) {
+  security(symbol: $symbol) {
+    key_metrics{
+      date
+      revenue_per_share
+      net_income_per_share
+      free_cash_flow_per_share
+      market_cap
+      enterprise_value
+      PE_ratio
+      PB_ratio
     }
+  }
+}
 `

@@ -3,25 +3,19 @@ import { connect } from 'react-redux'
 import { Button } from "react-native-elements"
 import { StyleSheet, View, Text, Alert } from "react-native"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { GET_WATCH, ADD_WATCH } from "../queries"
-
 import * as R from 'ramda'
 import { get } from 'lodash'
-
-// import Touchable from 'react-native-platform-touchable';
-// import * as WebBrowser from 'expo-web-browser';
-// import store from "../../store"
-
+import { GET_WATCH, ADD_WATCH } from "../queries"
 import PriceChart from "./PriceChart"
-import { printBlockString } from "graphql/language/blockString"
 
 const StockDetails = function StockDetails(props) {
     const user = { id: 42 };//props.user;
-    const symbol = props.navigation.getParam('symbol');
-    const companyName = props.navigation.getParam('companyName');
+    const symbol = 'AA'//props.navigation.getParam('symbol');
+    const companyName = 'company'//props.navigation.getParam('companyName');
     const [range, setRange] = useState("1W");
     const [showAdd, setShowAdd] = useState(true);
-
+    const [pressed, setPressed] = useState(2);
+    
     const rangeBtns = [
         { id: 1, title: "1D" },
         { id: 2, title: "1W" },
@@ -45,8 +39,9 @@ const StockDetails = function StockDetails(props) {
         }
     };
 
-    const handlePressRangeBtn = (title) => {
+    const handlePressRangeBtn = (title,id) => {
         setRange(title);
+        setPressed(id);
     };
 
     useEffect(() => {
@@ -78,17 +73,17 @@ const StockDetails = function StockDetails(props) {
                 {rangeBtns.map(rangeBtn => {
                     return (
                         <Button
-                            buttonStyle={styles.rangeBtn}
+                            buttonStyle={rangeBtn.id == pressed?[styles.rangeBtn,{backgroundColor:'orange'}]: styles.rangeBtn}
                             key={rangeBtn.id}
                             id={rangeBtn.id}
                             title={rangeBtn.title}
-                            onPress={() => handlePressRangeBtn(rangeBtn.title)}
+                            onPress={() => handlePressRangeBtn(rangeBtn.title, rangeBtn.id)}
                         />
                     );
                 })}
             </View>
             <Text style={{ height: 10 }}></Text>
-            {/* <PriceChart symbol={symbol} range={range} /> */}
+            <PriceChart symbol={symbol} range={range} />
         </View >
     );
 }
@@ -136,7 +131,7 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginRight: 5,
         width: 50,
-        height: 40
+        height: 40,
     },
     bottomLine: {
         borderBottomColor: '#C1C0B9',

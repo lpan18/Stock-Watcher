@@ -3,7 +3,6 @@ const config = require("config"),
   R = require('ramda')
 
 const addWatchResolver = async (root, { id, symbol }, context) => {
-  console.log(id+':'+symbol)
   try {
     if (R.isNil(id) || R.isNil(symbol)) {
       throw new Error('user or symbol not exist');

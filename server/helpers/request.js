@@ -45,7 +45,6 @@ function requestWithContext(context, url, options) {
   return requestAsync(options).then(res => {
     let callMeta = { url: url, body: options.body, timings: res.timingPhases, method: options.method };
     addMeta(context, callMeta);
-
     let body;
     try {
       body = JSON.parse(res.body);

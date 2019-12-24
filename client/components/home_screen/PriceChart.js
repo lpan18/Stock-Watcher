@@ -9,7 +9,15 @@ import { GET_STOCK_INTRADAY_PRICE, GET_STOCK_INTRADAY_H_PRICE, GET_STOCK_DAILY_P
 import ValuesTable from './ValuesTable'
 
 export default function PriceChart(props) {
-
+  const symbol =  props.symbol;
+  // const prices = [{
+  //   "close": "21.4200",
+  //   "datetime": "2019-12-24 13:00:00",
+  //   "high": "21.5800",
+  //   "low": "21.4200",
+  //   "open": "21.5800",
+  //   "volume": "39726",
+  // }]
   const RANGE_QUERY_MAPPING = {
     // Range, Query, Limit, TickFunction, fixLabelOverlap
     '1D': [GET_STOCK_INTRADAY_PRICE, 'intraday', 78, XTickFunc_1D, false],
@@ -22,7 +30,7 @@ export default function PriceChart(props) {
 
   // const current_date = moment().tz('America/New_York').format('YYYY-MM-DD'); 
   const { loading, error, data } = useQuery(RANGE_QUERY_MAPPING[props.range][0], {
-    variables: { symbol: props.symbol }
+    variables: { symbol: symbol}
   });
 
   if (loading) {
@@ -39,7 +47,7 @@ export default function PriceChart(props) {
   function XTickFunc_1D(x) {
     // const t = moment(x).format('h:mm');
     if (x.split(':')[1] == '00') {
-      return x.substring(11,16);
+      return x.substring(11,13);
     };
   }
 
@@ -100,8 +108,8 @@ export default function PriceChart(props) {
 
   return (
     <View style={styles.container}>
-      <View style={{ alignItems: 'center', flex: 1 }}>
-        <VictoryChart
+       <View style={{ alignItems: 'center', flex: 1 }}>
+        <VictoryChart padding={40}
           containerComponent={
             <VictoryVoronoiContainer
               labels={({ datum }) => {
@@ -140,7 +148,7 @@ export default function PriceChart(props) {
             }}
           />
         </VictoryChart>
-        <ValuesTable latestPrice={prices[0]} />
+        <ValuesTable symbol={symbol} latestPrice={prices[0]} />
       </View>
     </View>
   );

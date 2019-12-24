@@ -3,10 +3,12 @@ extend type Security {
 }
 
 type KeyMetrics {
+  date: DateTime
   revenue_per_share: String
   net_income_per_share: String
-  operating_cash_flow_per_share: String
+  free_cash_flow_per_share: String
   market_cap: String
   enterprise_value: String
   PE_ratio: String
+  PB_ratio: String
 }
