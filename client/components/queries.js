@@ -46,7 +46,36 @@ query WatchList($id: Int!){
   }
 }
 `
-
+export const GET_NEWS = gql`
+query News{
+  news {
+    source{
+      name
+    }
+    author
+    title
+    description
+    url
+    urlToImage
+    publishedAt
+    content
+  }
+}
+`
+export const GET_FOREX = gql`
+query Forex{
+  exchange {
+    ticker
+    bid
+    ask
+    open
+    low
+    high
+    changes
+    date
+  }
+}
+`
 export const GET_PROFILE = gql`
 query Security($symbol: String!) {
     security(symbol: $symbol) {

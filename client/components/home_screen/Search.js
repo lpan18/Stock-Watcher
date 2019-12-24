@@ -3,7 +3,7 @@ import { SearchBar } from "react-native-elements"
 import { StyleSheet, View, Text } from "react-native"
 import Touchable from 'react-native-platform-touchable'
 import * as R from 'ramda'
-import SYMBOLS from '../../resources/SYMBOLS'
+import SYMBOLS from '../helper/SYMBOLS'
 
 const getMatchedSymbols = (symbols, searchTxt) => {
   return R.filter(x => x.startsWith(searchTxt), symbols);
@@ -33,12 +33,11 @@ export default function Search(props) {
     if (!searchTxt) {
       setMatchedSymbols([])
     } else if (searchTxt.length <= maxSymbolLength) {
-      setMatchedSymbols(getMatchedSymbols(SYMBOLS, searchTxt).slice(0, 1)); // slice to 2 to reduce api call, for dev purpose  
+      setMatchedSymbols(getMatchedSymbols(SYMBOLS, searchTxt).slice(0, 4)); // slice to 2 to reduce api call, for dev purpose  
     };
   }
 
   const handlePressStock = (symbol, companyName) => {
-    console.log(symbol+':'+companyName)
     props.navigation.navigate('StockDetails', {
       symbol: symbol,
       companyName: companyName

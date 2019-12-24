@@ -1,7 +1,6 @@
 {
     "port": 4000,
     "api_key": "NN650RBZE5V154LW",
-    "news_key": "c3751d5f7d1e4047bb8f234a8749cab5",
     "jwt_secret": "test",
     "company": {
         "profile": {
@@ -39,17 +38,10 @@
     "sector_performance": {
         "url": "https://www.alphavantage.co/query?function=SECTOR"
     },
-    "exchange_rate": {
-        "realtime": {
-            "url": "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE"
-        },
-        "intraday": {
-            "url": "https://www.alphavantage.co/query?function=FX_INTRADAY",
-            "interval": "5min",
-            "outputsize": "full"
-        },
-        "daily": {
-            "url": "https://www.alphavantage.co/query?function=FX_DAILY"
-        }
+    "exchange": {
+        "url": "https://financialmodelingprep.com/api/v3/forex"
+    },
+    "news":{
+        "url": "https://newsapi.org/v2/top-headlines?language=en&q=stock&apiKey=c3751d5f7d1e4047bb8f234a8749cab5"
     }
 }

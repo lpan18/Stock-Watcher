@@ -1,15 +1,3 @@
-type User {
-  jwt: String
-  id: Int
-  name: String
-  email: String
-  password: String
-  avatar: String
-  sys_create_time: DateTime
-  sys_update_time: DateTime
-  sys_delete_time: DateTime
-}
-
 extend type Query {
   user(
     email: String!
@@ -23,4 +11,16 @@ extend type Mutation {
     name: String!
     password: String!
   ): User
+}
+
+type User {
+  jwt: String
+  id: Int
+  name: String
+  email: String
+  password: String
+  avatar: String
+  sys_create_time: DateTime
+  sys_update_time: DateTime
+  sys_delete_time: DateTime
 }

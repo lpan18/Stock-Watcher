@@ -1,0 +1,14 @@
+extend type Query {
+  exchange: [Forex]
+}
+
+type Forex {
+  ticker: String,
+  bid: String,
+  ask: String,
+  open: String,
+  low: String,
+  high: String,
+  changes:Float,
+  date: DateTime
+}

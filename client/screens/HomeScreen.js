@@ -1,5 +1,5 @@
 import React from "react"
-import { ScrollView, StyleSheet, Button} from 'react-native'
+import { ScrollView, StyleSheet} from 'react-native'
 import Search from "../components/home_screen/Search"
 import Watch from "../components/home_screen/Watch"
 

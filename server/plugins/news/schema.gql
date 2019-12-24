@@ -1,0 +1,19 @@
+extend type Query {
+  news: [Article]
+}
+
+type Article {
+  source: Source
+  author: String
+  title: String
+  description: String
+  url: String
+  urlToImage: String
+  publishedAt: DateTime
+  content: String
+}
+
+type Source {
+  id: String
+  name: String
+}

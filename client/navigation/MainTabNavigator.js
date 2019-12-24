@@ -4,10 +4,10 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon'
 import HomeScreen from '../screens/HomeScreen'
-import NewsScreen from '../screens/NewsScreen'
-import SettingsScreen from '../screens/SettingsScreen'
-
 import StockDetails from '../components/home_screen/StockDetails'
+import NewsScreen from '../screens/NewsScreen'
+import ForexScreen from '../screens/ForexScreen'
+import AccountScreen from '../screens/AccountScreen'
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -61,32 +61,49 @@ const NewsStack = createStackNavigator(
 NewsStack.navigationOptions = {
   tabBarLabel: 'News',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-list' : 'md-list'} />
   ),
 };
 
 NewsStack.path = '';
 
-const SettingsStack = createStackNavigator(
+const ForexStack = createStackNavigator(
   {
-    Settings: SettingsScreen,
+    Forex: ForexScreen,
   },
   config
 );
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+ForexStack.navigationOptions = {
+  tabBarLabel: 'Forex',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
   ),
 };
 
-SettingsStack.path = '';
+ForexStack.path = '';
+
+const AccountStack = createStackNavigator(
+  {
+    Account: AccountScreen,
+  },
+  config
+);
+
+AccountStack.navigationOptions = {
+  tabBarLabel: 'Account',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-contact' : 'md-contact'} />
+  ),
+};
+
+AccountStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack: HomeStack,
   NewsStack:NewsStack,
-  SettingsStack:SettingsStack,
+  ForexStack: ForexStack,
+  AccountStack:AccountStack,
 });
 
 tabNavigator.path = '';

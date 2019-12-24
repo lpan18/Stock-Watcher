@@ -20,9 +20,10 @@ const getProfiles = async (symbols) => {
 }
 
 export default function Watch(props) {
+  // const user = props.user;
   const user = {
     id: 42
-  }; // props.user
+  }; 
 
   const { loading, error, data } = useQuery(GET_WATCH, {
     variables: { id: user.id }
@@ -54,7 +55,7 @@ export default function Watch(props) {
 
   return (
     <View>
-      {isWatchedLoading ? <Text /> : (
+      {isWatchedLoading || watchedData.length == 0 ?<Text /> : (
         <View style={styles.stockView}>
           <Text style={styles.symbolText}>Watchlist</Text>
           {watchedData.map(d => (

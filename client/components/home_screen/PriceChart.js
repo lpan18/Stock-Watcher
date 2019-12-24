@@ -140,7 +140,7 @@ export default function PriceChart(props) {
             }}
           />
         </VictoryChart>
-        {/* <ValuesTable latestPrice={prices[0]} /> */}
+        <ValuesTable latestPrice={prices[0]} />
       </View>
     </View>
   );
