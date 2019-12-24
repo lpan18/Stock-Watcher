@@ -5,6 +5,7 @@ import Touchable from 'react-native-platform-touchable'
 import { useQuery } from "@apollo/react-hooks"
 import { GET_NEWS } from "../queries"
 import * as WebBrowser from 'expo-web-browser';
+import Moment from 'react-moment';
 
 export default function News() {
   const { loading, error, data } = useQuery(GET_NEWS);
@@ -33,7 +34,7 @@ export default function News() {
                 size: 'large'
               }}
             title={<Text style={styles.title}>{d.title}</Text>}
-              subtitle={<Text style={styles.subtitle}>{d.description}</Text>}
+              subtitle={<View><View><Moment fromNow element={Text} style={styles.time}>{d.publishedAt}</Moment></View><View><Text style={styles.subtitle}>{d.description}</Text></View></View>}
               bottomDivider
             />
           </Touchable>
@@ -53,6 +54,10 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     marginTop: 5,
-    fontSize:13
+    fontSize: 13
+  },
+  time:{
+    color: 'grey',
+    fontSize: 14
   }
 });

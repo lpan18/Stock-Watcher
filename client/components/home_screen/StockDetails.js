@@ -19,7 +19,7 @@ const StockDetails = function StockDetails(props) {
     const user = { id: 42 };//props.user;
     const symbol = props.navigation.getParam('symbol');
     const companyName = props.navigation.getParam('companyName');
-    const [range, setRange] = useState("1D");
+    const [range, setRange] = useState("1W");
     const [showAdd, setShowAdd] = useState(true);
 
     const rangeBtns = [
@@ -88,7 +88,7 @@ const StockDetails = function StockDetails(props) {
                 })}
             </View>
             <Text style={{ height: 10 }}></Text>
-            <PriceChart symbol={symbol} range={range} />
+            {/* <PriceChart symbol={symbol} range={range} /> */}
         </View >
     );
 }

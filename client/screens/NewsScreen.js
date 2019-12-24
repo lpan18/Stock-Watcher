@@ -5,7 +5,7 @@ import News from "../components/news_screen/News"
 export default function NewsScreen() {
   return (
     <ScrollView style={styles.container}>
-      <News />
+      {/* <News /> */}
     </ScrollView>
   );
 }

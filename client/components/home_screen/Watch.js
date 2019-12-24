@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
-import { StyleSheet, View, Text } from "react-native"
+import { StyleSheet, View, Text, RefreshControl } from "react-native"
+import { NavigationEvents,withNavigationFocus } from "react-navigation";
 import Touchable from 'react-native-platform-touchable'
 import * as R from 'ramda'
 import { useQuery } from "@apollo/react-hooks"
@@ -23,10 +24,10 @@ export default function Watch(props) {
   // const user = props.user;
   const user = {
     id: 42
-  }; 
+  };
 
-  const { loading, error, data } = useQuery(GET_WATCH, {
-    variables: { id: user.id }
+  const GetWatch = useQuery(GET_WATCH, {
+    variables: { id: user.id },
   });
 
   const [watchedData, setWatchedData] = useState({});
@@ -45,18 +46,25 @@ export default function Watch(props) {
     })
   }
   useEffect(() => {
-    if (!error && !loading) {
-      if(data.watchlist.length>0){
-        const watchedSymbols = R.map(x => x.symbol, data.watchlist);
-        getWatchedProfiles(watchedSymbols)  
+    if (!GetWatch.error && !GetWatch.loading) {
+      if (GetWatch.data.watchlist.length > 0) {
+        const watchedSymbols = R.map(x => x.symbol, GetWatch.data.watchlist);
+        getWatchedProfiles(watchedSymbols)
       }
     }
-  }, [data, error, loading])
+  }, [GetWatch.data, GetWatch.error, GetWatch.loading])
+
+  function extractValue(str){
+    return parseFloat(str.match(/\(([^)]+)\)/)[1])
+  }
 
   return (
     <View>
-      {isWatchedLoading || watchedData.length == 0 ?<Text /> : (
-        <View style={styles.stockView}>
+      <NavigationEvents
+        onWillFocus={() => GetWatch.refetch()}
+      />
+      {isWatchedLoading || watchedData.length == 0 ? <Text /> : (
+        <View style={styles.container}>
           <Text style={styles.symbolText}>Watchlist</Text>
           {watchedData.map(d => (
             <Touchable onPress={() => handlePressStock(d.symbol, d.profile.companyName)} key={d.symbol}>
@@ -67,10 +75,11 @@ export default function Watch(props) {
                   <Text style={styles.stockBodyText}>{d.profile.companyName}
                   </Text>
                 </View>
-                <View style={styles.stockView}>
+                <View style={styles.priceView}>
                   <Text style={styles.stockTitleText}>{d.profile.price}
                   </Text>
-                  <Text style={styles.stockBodyText}>{d.profile.changesPercentage}
+                  <Text style={extractValue(d.profile.changesPercentage) > 0 ? styles.stockChangeGreenText : styles.stockChangeRedText}>
+                  {d.profile.changesPercentage}
                   </Text>
                 </View>
               </View>
@@ -82,12 +91,23 @@ export default function Watch(props) {
   );
 }
 
+//extractValue(d.profile.changesPercentage) > 0 ? styles.stockChangeGreenText : 
 Watch.navigationOptions = {
   title: 'Watch',
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginHorizontal: 10,
+    backgroundColor: '#fff',
+  },
   stockView: {
+    flex: 0.8,
+    margin: 10,
+  },
+  priceView: {
+    flex:0.2,
     margin: 10
   },
   symbolText: {
@@ -96,8 +116,16 @@ const styles = StyleSheet.create({
   },
   stockTitleText: {
     fontSize: 20,
-  },
+  },  
   stockBodyText: {
-    fontSize: 15,
+    fontSize: 16,
+  },
+  stockChangeRedText: {
+    fontSize: 16,
+    color:'#ff3a30'
+  },
+  stockChangeGreenText: {
+    fontSize: 16,
+    color:'#35c759'
   },
 });
