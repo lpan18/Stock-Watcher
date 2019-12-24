@@ -48,7 +48,7 @@ export default function ValuesTable(props) {
 const styles = StyleSheet.create({
     container: { flex: 1, padding: 10, backgroundColor: '#fff' },
     priceRow: {
-        height: 20
+        height: 25
     },
     priceText: {
         marginLeft: 20,

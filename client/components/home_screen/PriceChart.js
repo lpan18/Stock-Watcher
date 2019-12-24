@@ -96,7 +96,6 @@ export default function PriceChart(props) {
     findTickDateList(prices);
   }
 
-  // the entries of last 24 hours
   const count = RANGE_QUERY_MAPPING[props.range][2];
   chartData = prices.slice(0, count).map(x => {
     return {
@@ -109,7 +108,7 @@ export default function PriceChart(props) {
   return (
     <View style={styles.container}>
        <View style={{ alignItems: 'center', flex: 1 }}>
-        <VictoryChart padding={40}
+        <VictoryChart padding={{ top: 10, bottom: 20, left:40, right:40}}
           containerComponent={
             <VictoryVoronoiContainer
               labels={({ datum }) => {

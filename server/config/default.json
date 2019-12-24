@@ -19,7 +19,7 @@
     "stock_price": {
         "intraday": {
             "url": "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY",
-            "interval": "30min",
+            "interval": "5min",
             "outputsize": "compact"
         },
         "intraday_h": {
