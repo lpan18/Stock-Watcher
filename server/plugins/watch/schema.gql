@@ -5,10 +5,8 @@ extend type Query {
 }
 
 extend type Mutation {
-  add_watch(
-    id: Int!
-    symbol: String!
-  ): Watch
+  add_watch(id: Int! symbol: String!): [Watch]
+  remove_watch(id: Int! symbol: String!): [Watch]
 }
 
 type Watch {
@@ -16,5 +14,4 @@ type Watch {
   symbol: String
   sys_create_time: DateTime
   sys_update_time: DateTime
-  sys_delete_time: DateTime
 }

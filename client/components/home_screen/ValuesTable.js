@@ -24,23 +24,27 @@ export default function ValuesTable(props) {
 
     const keyMetricsTableHead = ['Metrics', 'Value'];
     const obj = data.security.key_metrics;
-    let keyMetricsTableData = Object.keys(obj).map(function (key) {
-        return [key, obj[key]];
-    });
-    keyMetricsTableData.pop();
+    let keyMetricsTableData = null;
+    if (obj) {
+        Object.keys(obj).map(function (key) {
+            return [key, obj[key]];
+        });
+        keyMetricsTableData.pop();
+    }
 
     return (
         <View style={styles.container}>
             <Table borderStyle={{ borderWidth: 0, borderColor: '#C1C0B9' }}>
                 <Rows data={tableData} widthArr={[80, 150, 100, 100]} style={styles.priceRow} textStyle={styles.priceText} />
             </Table>
-            <Text style={styles.metricsText}>Key Metrics</Text>
-            <ScrollView style={styles.dataWrapper}>
-                <Table borderStyle={{ borderWidth: 1, borderColor: '#C1C0B9' }}>
-                    <Row data={keyMetricsTableHead} style={styles.header} textStyle={styles.headertext} />
+            {keyMetricsTableData ? (<View>
+                <Text style={styles.metricsText}>Key Metrics</Text>
+                <ScrollView style={styles.dataWrapper}>
+                    <Table borderStyle={{ borderWidth: 1, borderColor: '#C1C0B9' }}>
+                        <Row data={keyMetricsTableHead} style={styles.header} textStyle={styles.headertext} />
                         <Rows data={keyMetricsTableData} style={styles.row} textStyle={styles.text} />
-                </Table>
-            </ScrollView>
+                    </Table>
+                </ScrollView></View>) : null}
         </View>
     )
 }
@@ -53,7 +57,7 @@ const styles = StyleSheet.create({
     priceText: {
         marginLeft: 20,
         textAlign: 'left',
-        fontSize:14
+        fontSize: 14
     },
     metricsText: {
         marginVertical: 10,

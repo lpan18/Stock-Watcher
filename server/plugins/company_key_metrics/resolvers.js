@@ -1,7 +1,5 @@
 const dig = require("object-dig"),
-  R = require('ramda'),
   keyMetricsHelper = require("./helper"),
-  config = require("config")
 
 const keyMetricsResolver = (parent, args, context, info) => {
   const url = keyMetricsHelper.keyMetricsURL(parent.symbol);
@@ -13,7 +11,7 @@ const keyMetricsResolver = (parent, args, context, info) => {
         date: key_metrics["date"],
         revenue_per_share: key_metrics['Revenue per Share'],
         net_income_per_share: key_metrics['Net Income per Share'],
-        free_cash_flow_per_share:key_metrics['Free Cash Flow per Share'],
+        free_cash_flow_per_share: key_metrics['Free Cash Flow per Share'],
         market_cap: key_metrics['Market Cap'],
         enterprise_value: key_metrics['Enterprise Value'],
         PE_ratio: key_metrics['PE ratio'],

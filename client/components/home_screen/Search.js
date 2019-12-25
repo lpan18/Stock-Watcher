@@ -39,8 +39,8 @@ export default function Search(props) {
 
   const handlePressStock = (symbol, companyName) => {
     props.navigation.navigate('StockDetails', {
-      symbol: symbol,
-      companyName: companyName
+      symbol: symbol || '',
+      companyName: companyName || ''
     })
   }
   useEffect(() => {
@@ -55,7 +55,7 @@ export default function Search(props) {
     }
   }, [matchedSymbols]);
 
-  function extractValue(str){
+  function extractValue(str) {
     return parseFloat(str.match(/\(([^)]+)\)/)[1])
   }
 
@@ -73,23 +73,23 @@ export default function Search(props) {
           <Text style={styles.symbolText}>Symbols</Text>
           {matchedData.map(d => (
             <Touchable onPress={() => handlePressStock(d.symbol, d.profile.companyName)} key={d.symbol}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <View style={styles.stockView}>
-                <Text style={styles.stockTitleText}>{d.symbol}
-                </Text>
-                <Text style={styles.stockBodyText}>{d.profile.companyName}
-                </Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <View style={styles.stockView}>
+                  <Text style={styles.stockTitleText}>{d.symbol}
+                  </Text>
+                  <Text style={styles.stockBodyText}>{d.profile.companyName}
+                  </Text>
+                </View>
+                <View style={styles.priceView}>
+                  <Text style={styles.stockTitleText}>{d.profile.price}
+                  </Text>
+                  <Text style={extractValue(d.profile.changesPercentage) > 0 ? styles.stockChangeGreenText : styles.stockChangeRedText}>
+                    {d.profile.changesPercentage}
+                  </Text>
+                </View>
               </View>
-              <View style={styles.priceView}>
-                <Text style={styles.stockTitleText}>{d.profile.price}
-                </Text>
-                <Text style={extractValue(d.profile.changesPercentage) > 0 ? styles.stockChangeGreenText : styles.stockChangeRedText}>
-                {d.profile.changesPercentage}
-                </Text>
-              </View>
-            </View>
-          </Touchable>
-        ))}
+            </Touchable>
+          ))}
         </View>
       )}
     </View>
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   priceView: {
-    flex:0.2,
+    flex: 0.2,
     margin: 10
   },
   symbolText: {
@@ -120,16 +120,16 @@ const styles = StyleSheet.create({
   },
   stockTitleText: {
     fontSize: 20,
-  },  
+  },
   stockBodyText: {
     fontSize: 16,
   },
   stockChangeRedText: {
     fontSize: 16,
-    color:'#ff3a30'
+    color: '#ff3a30'
   },
   stockChangeGreenText: {
     fontSize: 16,
-    color:'#35c759'
+    color: '#35c759'
   },
 });

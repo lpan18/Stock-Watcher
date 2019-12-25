@@ -19,9 +19,14 @@ mutation AddWatch($id: Int!, $symbol:String!) {
   add_watch(id: $id, symbol:$symbol){
     id
     symbol
-    sys_create_time
-    sys_update_time
-    sys_delete_time
+  }
+}
+`
+export const REMOVE_WATCH = gql`
+mutation RemoveWatch($id: Int!, $symbol:String!) {
+  remove_watch(id: $id, symbol:$symbol){
+    id
+    symbol
   }
 }
 `

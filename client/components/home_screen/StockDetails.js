@@ -10,12 +10,12 @@ import PriceChart from "./PriceChart"
 
 const StockDetails = function StockDetails(props) {
     const user = { id: 42 };//props.user;
-    const symbol = 'AA'//props.navigation.getParam('symbol');
-    const companyName = 'company'//props.navigation.getParam('companyName');
+    const symbol = props.navigation.getParam('symbol') || '';
+    const companyName = props.navigation.getParam('companyName') || '';
     const [range, setRange] = useState("1W");
     const [showAdd, setShowAdd] = useState(true);
     const [pressed, setPressed] = useState(2);
-    
+
     const rangeBtns = [
         { id: 1, title: "1D" },
         { id: 2, title: "1W" },
@@ -32,14 +32,12 @@ const StockDetails = function StockDetails(props) {
     const [addWatchMut] = useMutation(ADD_WATCH);
 
     const handlePressAdd = async () => {
-        const res = await addWatchMut({ variables: { id: user.id, symbol: symbol } });
-        if (get(res, 'data', 'add_watch', 'symbol')) {
-            Alert.alert('Success!', 'Added to your watchlist!');
-            setShowAdd(false)
-        }
+        await addWatchMut({ variables: { id: user.id, symbol: symbol } });
+        Alert.alert('Success!', 'Added to your watchlist!');
+        setShowAdd(false)
     };
 
-    const handlePressRangeBtn = (title,id) => {
+    const handlePressRangeBtn = (title, id) => {
         setRange(title);
         setPressed(id);
     };
@@ -59,7 +57,7 @@ const StockDetails = function StockDetails(props) {
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <View>
                         <Text style={styles.stockTitleText}>{symbol}{'    '}
-                            <Text style={styles.stockBodyText}>{companyName}
+                            <Text style={styles.stockBodyText}>{companyName.substr(0, 36)}
                             </Text>
                         </Text>
                     </View>
@@ -73,7 +71,7 @@ const StockDetails = function StockDetails(props) {
                 {rangeBtns.map(rangeBtn => {
                     return (
                         <Button
-                            buttonStyle={rangeBtn.id == pressed?[styles.rangeBtn,{backgroundColor:'orange'}]: styles.rangeBtn}
+                            buttonStyle={rangeBtn.id == pressed ? [styles.rangeBtn, { backgroundColor: 'orange' }] : styles.rangeBtn}
                             key={rangeBtn.id}
                             id={rangeBtn.id}
                             title={rangeBtn.title}

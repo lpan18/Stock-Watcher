@@ -22,5 +22,4 @@ type User {
   avatar: String
   sys_create_time: DateTime
   sys_update_time: DateTime
-  sys_delete_time: DateTime
 }

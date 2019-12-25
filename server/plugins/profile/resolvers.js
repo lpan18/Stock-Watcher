@@ -1,6 +1,4 @@
 const dig = require("object-dig"),
-  R = require('ramda'),
-  config = require("config"),
   profileHelper = require("./helper")
 
 const profileResolver = (parent, args, context) => {

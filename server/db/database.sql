@@ -24,7 +24,6 @@ CREATE TABLE stock.users
     avatar character varying(50),
     sys_create_time timestamp with time zone NOT NULL DEFAULT clock_timestamp(),
     sys_update_time timestamp with time zone NOT NULL DEFAULT clock_timestamp(),
-    sys_delete_time timestamp with time zone,
     CONSTRAINT pk_user_id PRIMARY KEY (id)
 )
 WITH (
@@ -47,7 +46,6 @@ CREATE TABLE stock.watchlist
     symbol character varying(10) NOT NULL,
     sys_create_time timestamp with time zone NOT NULL DEFAULT clock_timestamp(),
     sys_update_time timestamp with time zone NOT NULL DEFAULT clock_timestamp(),
-    sys_delete_time timestamp with time zone,
     CONSTRAINT pk_watchlist PRIMARY KEY (id, symbol),
     CONSTRAINT fk_id FOREIGN KEY (id) REFERENCES stock.users (id) MATCH SIMPLE 
     ON UPDATE NO ACTION ON DELETE NO ACTION
