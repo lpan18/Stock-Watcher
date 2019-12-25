@@ -26,7 +26,7 @@ export default function ValuesTable(props) {
     const obj = data.security.key_metrics;
     let keyMetricsTableData = null;
     if (obj) {
-        Object.keys(obj).map(function (key) {
+        keyMetricsTableData = Object.keys(obj).map(function (key) {
             return [key, obj[key]];
         });
         keyMetricsTableData.pop();

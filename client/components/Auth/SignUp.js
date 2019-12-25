@@ -44,7 +44,7 @@ export default function SignUp({ navigation }) {
       >
         {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
           <View>
-            <Text>Your Email Address</Text>
+            <Text style={styles.label}>Email Address</Text>
             <Input
               placeholder='email@address.com'
               rightIcon={
@@ -63,7 +63,7 @@ export default function SignUp({ navigation }) {
                 <Text style={styles.errMsg}>{errors.email}</Text>
               )}
             <Text> {"\n"} </Text>
-            <Text>Name</Text>
+            <Text style={styles.label}>Nick Name</Text>
             <Input
               placeholder='Name'
               rightIcon={
@@ -82,7 +82,7 @@ export default function SignUp({ navigation }) {
                 <Text style={styles.errMsg}>{errors.name}</Text>
               )}
             <Text> {"\n"} </Text>
-            <Text>Password</Text>
+            <Text style={styles.label}>Password</Text>
             <Input
               placeholder='Password'
               rightIcon={
@@ -106,7 +106,7 @@ export default function SignUp({ navigation }) {
         )}
       </Formik>
       <View style={styles.btnContainer}>
-        <Text>Already have an account? </Text>
+        <Text style={styles.label}>Already have an account?   </Text>
         <Button buttonStyle={styles.btn} title="Sign In" onPress={() => goTo("SignIn")} />
       </View>
     </View>
@@ -124,9 +124,11 @@ const styles = StyleSheet.create({
     fontSize: 35,
     marginBottom: 40
   },
+  label: {
+    fontSize: 16,
+  },
   btn: {
     width: 80,
-    height: 40,
   },
   btnContainer: {
     paddingLeft: 40,

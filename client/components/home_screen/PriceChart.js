@@ -10,14 +10,7 @@ import ValuesTable from './ValuesTable'
 
 export default function PriceChart(props) {
   const symbol = props.symbol;
-  // const prices = [{
-  //   "close": "21.4200",
-  //   "datetime": "2019-12-24 13:00:00",
-  //   "high": "21.5800",
-  //   "low": "21.4200",
-  //   "open": "21.5800",
-  //   "volume": "39726",
-  // }]
+
   const RANGE_QUERY_MAPPING = {
     // Range, Query, Limit, TickFunction, fixLabelOverlap
     '1D': [GET_STOCK_INTRADAY_PRICE, 'intraday', 78, XTickFunc_1D, false],

@@ -1,0 +1,20 @@
+extend type Query {
+  alerts(
+    id: Int!
+  ): [Alert]
+}
+
+extend type Mutation {
+  add_alert(id: Int! symbol: String! low_price: Float!): [Alert]
+  remove_alert(alert_id: Int!, id: Int!): [Alert]
+}
+
+type Alert {
+  alert_id: Int
+  id: Int
+  symbol: String
+  low_price: Float
+  high_price: Float
+  sys_create_time: DateTime
+  sys_update_time: DateTime
+}

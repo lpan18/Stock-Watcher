@@ -1,5 +1,5 @@
 const dig = require("object-dig"),
-  keyMetricsHelper = require("./helper"),
+  keyMetricsHelper = require("./helper")
 
 const keyMetricsResolver = (parent, args, context, info) => {
   const url = keyMetricsHelper.keyMetricsURL(parent.symbol);

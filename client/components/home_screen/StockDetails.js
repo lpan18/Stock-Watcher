@@ -9,7 +9,7 @@ import { GET_WATCH, ADD_WATCH } from "../queries"
 import PriceChart from "./PriceChart"
 
 const StockDetails = function StockDetails(props) {
-    const user = { id: 42 };//props.user;
+    const user = props.user;
     const symbol = props.navigation.getParam('symbol') || '';
     const companyName = props.navigation.getParam('companyName') || '';
     const [range, setRange] = useState("1W");

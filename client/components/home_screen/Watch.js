@@ -24,16 +24,13 @@ const getProfiles = async (symbols) => {
 
 export default function Watch(props) {
   // const user = props.user;
-  const user = {
-    id: 42
-  };
-
+  console.log(props)
   const GetWatch = useQuery(GET_WATCH, {
     variables: { id: user.id },
   });
-  const [watchedData, setWatchedData] = useState({});
+  
+  const [watchedData, setWatchedData] = useState([]);
   const [isWatchedLoading, setIsWatchedLoading] = useState(true);
-  // const [isChanged, setChange] = useState(false);
 
   const getWatchedProfiles = async (watchedSymbols) => {
     const response = await getProfiles(watchedSymbols);
@@ -62,7 +59,7 @@ export default function Watch(props) {
         getWatchedProfiles(watchedSymbols)
       }
     }
-  }, [GetWatch.data, GetWatch.error, GetWatch.loading])
+  }, [GetWatch.data, GetWatch.loading])
 
   function extractValue(str) {
     return parseFloat(str.match(/\(([^)]+)\)/)[1])
@@ -78,8 +75,8 @@ export default function Watch(props) {
           <Text style={styles.symbolText}>Watchlist</Text>
           {watchedData.map(d => (
             <Swipeable key={d.symbol} rightButtons={[<Text style={styles.remove} onPress={() => handleRemove(user.id, d.symbol)}>Remove</Text>]}>
-              <Touchable onPress={() => handlePressStock(d.symbol, d.profile.companyName)} key={d.symbol}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', height: 50 }}>
+              <Touchable onPress={(d) => handlePressStock(d.symbol, d.profile.companyName)} key={d.symbol}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', height: 60 }}>
                   <View style={styles.stockView}>
                     <Text style={styles.stockTitleText}>{d.symbol}
                     </Text>
@@ -116,14 +113,14 @@ const styles = StyleSheet.create({
   },
   remove: {
     margin: 10,
-    height: 50,
+    height: 60,
     width: 400,
     backgroundColor: '#2089dc',
     color: 'white',
     alignItems: 'center',
     paddingLeft: 5,
-    paddingTop: 17,
-    fontSize: 16,
+    paddingTop: 21,
+    fontSize: 18,
     fontWeight: 'bold'
   },
   stockView: {

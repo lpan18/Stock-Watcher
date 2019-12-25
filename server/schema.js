@@ -16,7 +16,8 @@ const requireText = require('require-text'),
     require('./plugins/authentication'),
     require('./plugins/watch'),
     require('./plugins/news'),
-    require('./plugins/exchange')
+    require('./plugins/exchange'),
+    require('./plugins/alerts')
   ]
 
 const typeDefs = R.reduce(R.concat, '', R.map(plugin => plugin.schema || '', plugins)) + requireText('./schema.gql', require);

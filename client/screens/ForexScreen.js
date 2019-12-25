@@ -5,7 +5,7 @@ import Forex from "../components/forex_screen/Forex"
 export default function ForexScreen() {
   return (
     <ScrollView style={styles.container}>
-      {/* <Forex /> */}
+      <Forex />
     </ScrollView>
   );
 }

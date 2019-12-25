@@ -30,6 +30,28 @@ mutation RemoveWatch($id: Int!, $symbol:String!) {
   }
 }
 `
+export const ADD_ALERT = gql`
+mutation AddAlert($id: Int!, $symbol:String!, $low_price:Float!) {
+  add_alert(id: $id, symbol: $symbol, low_price: $low_price){
+    alert_id
+    id
+    symbol
+    low_price
+    sys_create_time
+  }
+}
+`
+export const REMOVE_ALERT = gql`
+mutation RemoveAlert($alert_id: Int!, $id:Int!) {
+  remove_alert(alert_id:$alert_id, id: $id){
+    alert_id
+    symbol
+    low_price
+    sys_create_time
+  }
+}
+`
+
 export const GET_USER = gql`
 query User($email: String!, $password: String!) {
   user(email: $email, password: $password) {
@@ -48,6 +70,16 @@ export const GET_WATCH = gql`
 query WatchList($id: Int!){
   watchlist(id: $id){
     symbol
+  }
+}
+`
+export const GET_ALERT = gql`
+query AlertList($id: Int!){
+  alerts(id: $id) {
+    alert_id
+    symbol
+    low_price
+    sys_create_time
   }
 }
 `

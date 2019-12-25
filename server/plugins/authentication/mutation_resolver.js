@@ -1,6 +1,5 @@
-const config = require("config"),
-  bcrypt = require("bcrypt"),
-  jwt = require('jsonwebtoken');
+const bcrypt = require("bcrypt")
+  // jwt = require('jsonwebtoken');
 
 const signUpResolver = async (root, { email, name, password }, context) => {
   try {
@@ -10,7 +9,7 @@ const signUpResolver = async (root, { email, name, password }, context) => {
     }
     const hash = await bcrypt.hash(password, 5);
     const user = await context.pool.query(`INSERT INTO stock.users(email, name, password) VALUES ('${email}', '${name}', '${hash}') RETURNING *`).then(res => res.rows[0]);
-    user.jwt = jwt.sign({id:user.id, name:user.name}, config.jwt_secret);
+    // user.jwt = jwt.sign({id:user.id, name:user.name}, config.jwt_secret);
     context.user = user;
     return user;
   } catch (error) {

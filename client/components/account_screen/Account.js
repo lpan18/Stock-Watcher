@@ -11,15 +11,7 @@ function Item({ title }) {
 }
 
 export default function Account(props) {
-  const user = {
-    id: 42,
-    name: "Test",
-    email: "T1@mme.com",
-    avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    sys_create_time: "2019-12-20T22:32:01Z",
-    sys_update_time: "2019-12-23T22:32:01Z"
-  }
-  //props.user;
+  const user = props.user;
   const sections = [
     { data: [user.name], title: 'Name' },
     { data: [user.email], title: 'Email' },

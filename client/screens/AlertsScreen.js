@@ -1,17 +1,17 @@
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import News from "../components/news_screen/News"
+import Alerts from "../components/alerts_screen/Alerts"
 
-export default function NewsScreen() {
+export default function AlertsScreen(props) {
   return (
     <ScrollView style={styles.container}>
-      <News />
+      <Alerts {...props}/>
     </ScrollView>
   );
 }
 
-NewsScreen.navigationOptions = {
-  title: 'News',
+AlertsScreen.navigationOptions = {
+  title: 'Alerts',
 };
 
 const styles = StyleSheet.create({

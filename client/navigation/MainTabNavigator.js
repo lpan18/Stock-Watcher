@@ -5,6 +5,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import TabBarIcon from '../components/TabBarIcon'
 import HomeScreen from '../screens/HomeScreen'
 import StockDetails from '../components/home_screen/StockDetails'
+import AlertsScreen from '../screens/AlertsScreen'
 import NewsScreen from '../screens/NewsScreen'
 import ForexScreen from '../screens/ForexScreen'
 import AccountScreen from '../screens/AccountScreen'
@@ -22,17 +23,6 @@ const HomeStack = createStackNavigator(
   {
     initialRouteName: 'Home',
   }
-  //   defaultNavigationOptions: {
-  //     headerStyle: {
-  //       backgroundColor: '#f4511e',
-  //     },
-  //     headerTintColor: '#fff',
-  //     headerTitleStyle: {
-  //       fontWeight: 'bold',
-  //     },
-  //     headerMode: 'screen'
-  //   },
-  // }
 );
 
 HomeStack.navigationOptions = {
@@ -50,6 +40,24 @@ HomeStack.navigationOptions = {
 };
 
 HomeStack.path = '';
+
+const AlertsStack = createStackNavigator(
+  {
+    Alerts: AlertsScreen,
+  },
+  {
+    initialRouteName: 'Alerts',
+  }
+);
+
+AlertsStack.navigationOptions = {
+  tabBarLabel: 'Alerts',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-alarm' : 'md-alarm'} />
+  ),
+};
+
+AlertsStack.path = '';
 
 const NewsStack = createStackNavigator(
   {
@@ -101,9 +109,10 @@ AccountStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack: HomeStack,
-  NewsStack:NewsStack,
+  NewsStack: NewsStack,
+  AlertsStack: AlertsStack,
   ForexStack: ForexStack,
-  AccountStack:AccountStack,
+  AccountStack: AccountStack,
 });
 
 tabNavigator.path = '';

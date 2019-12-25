@@ -63,6 +63,16 @@ const SignIn = function SignIn(props) {
         console.log(e);
     }
 
+    const handleDemo = ()=>{
+        setCurrentUser({
+            id: 5,
+            email: "demo@demo.com",
+            password: "$2b$05$RNody/31406/awb67ojIE.cgeMUh/gPD.sgtPSQ1RMcSEUZw5kuam"//"Demo12345"
+        });
+        props.signedIn(currentUser);
+        props.navigation.navigate("Main");
+    }
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Sign In</Text>
@@ -73,7 +83,7 @@ const SignIn = function SignIn(props) {
             >
                 {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                     <View>
-                        <Text>Your Email Address</Text>
+                        <Text style={styles.label}>Your Email Address</Text>
                         <Input
                             placeholder='email@address.com'
                             rightIcon={
@@ -93,7 +103,7 @@ const SignIn = function SignIn(props) {
                             )}
 
                         <Text> {"\n"} </Text>
-                        <Text>Password</Text>
+                        <Text style={styles.label}>Your Password</Text>
                         <Input
                             placeholder='Password'
                             rightIcon={
@@ -118,9 +128,10 @@ const SignIn = function SignIn(props) {
                 )}
             </Formik>
             <View style={styles.btnContainer}>
-                <Text>Don't have an account?  </Text>
-                <Button buttonStyle={styles.btn} title="Sign Up" onPress={() => goTo("SignUp")} />
+                <Text style={styles.label}>Don't have an account?   </Text>
+                <Button buttonStyle={styles.btn} textStyle={{ fontSize: 20 }} title="Sign Up" onPress={() => goTo("SignUp")} />
             </View>
+            <Text onPress={handleDemo}> DEMO </Text>
         </View>
     );
 };
@@ -142,9 +153,11 @@ const styles = StyleSheet.create({
         fontSize: 30,
         marginBottom: 30
     },
+    label: {
+        fontSize: 16,
+    },
     btn: {
-        width: 80,
-        height: 40,
+        width: 80
     },
     btnContainer: {
         paddingLeft: 40,
