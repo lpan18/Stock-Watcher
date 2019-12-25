@@ -2,6 +2,8 @@ const bcrypt = require("bcrypt")
   // jwt = require('jsonwebtoken');
 
 const signUpResolver = async (root, { email, name, password }, context) => {
+  console.log("in mutation resolver")
+  console.log(email+":"+password)
   try {
     const existingUser = await context.pool.query(`SELECT * FROM stock.users WHERE email = '${email}'`).then(res => res.rows[0]);
     if (existingUser) {

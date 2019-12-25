@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { connect } from 'react-redux'
-import { StyleSheet, View } from "react-native"
+import { StyleSheet, View, ColorPropType } from "react-native"
 import { Button, Input, Text, Icon } from "react-native-elements"
 import { Formik } from "formik"
 import * as Yup from "yup"
@@ -21,56 +21,43 @@ const SignupSchema = Yup.object().shape({
         .email("Invalid email")
 });
 
-const SignIn = function SignIn(props) {
+const SignIn = (props) => {
     const goTo = path => props.navigation.navigate(path);
     const [vals, setVals] = useState({
-        email: '',
-        password: ''
-    });
-    const [currentUser, setCurrentUser] = useState({
-        id: 0,
         email: '',
         password: ''
     });
 
     const LoginUser = (values) => {
         setVals({
-            email: values.email,
+            email: values.email.toLowerCase(),
             password: values.password
         });
     };
-    try {
-        const { loading, error, data } = useQuery(GET_USER, {
-            variables: vals
-        });
-        if (loading) return <Text>Loading ...</Text>;
+    // try {
+    const { loading, error, data } = useQuery(GET_USER, {
+        variables: vals
+    });
+    if (loading) return <Text>Loading ...</Text>;
 
-        if (error) {
-            return <Text>Get User Error! {error.message}</Text>;
-        }
-        const { signedIn } = props;
-
-        if (data.login && data.login.email == vals.email) {
-            setCurrentUser({
-                id: data.login.id,
-                email: vals.email,
-                password: vals.password
-            });
-            signedIn(currentUser);
-            props.navigation.navigate("Main");
-        }
-    } catch (e) {
-        console.log(e);
+    if (error) {
+        return <Text>Get User Error! {error.message}</Text>;
     }
 
-    const handleDemo = ()=>{
-        setCurrentUser({
-            id: 5,
-            email: "demo@demo.com",
-            password: "$2b$05$RNody/31406/awb67ojIE.cgeMUh/gPD.sgtPSQ1RMcSEUZw5kuam"//"Demo12345"
-        });
-        props.signedIn(currentUser);
+    if (data.user && data.user.email == vals.email) {
+        props.signedIn(data.user);
         props.navigation.navigate("Main");
+    }
+    // } catch (e) {
+    //     console.log(e);
+    // }
+
+    const handleDemo = () => {
+        const demoUser = {
+            email: "demo@me.com",
+            password: "Demo12345"
+        };
+        setVals(demoUser)
     }
 
     return (
@@ -129,17 +116,18 @@ const SignIn = function SignIn(props) {
             </Formik>
             <View style={styles.btnContainer}>
                 <Text style={styles.label}>Don't have an account?   </Text>
-                <Button buttonStyle={styles.btn} textStyle={{ fontSize: 20 }} title="Sign Up" onPress={() => goTo("SignUp")} />
+                <Text style={styles.demo} onPress={() => goTo("SignUp")}>Sign Up</Text>
+                <Text style={styles.label}>  or  </Text>
+                <Text style={styles.demo} onPress={handleDemo}>Demo</Text>
             </View>
-            <Text onPress={handleDemo}> DEMO </Text>
         </View>
     );
 };
 
 const mapStateToProps = state => ({
     user: state
-  });
-  
+});
+
 export default connect(mapStateToProps, Action)(SignIn);
 
 const styles = StyleSheet.create({
@@ -153,11 +141,9 @@ const styles = StyleSheet.create({
         fontSize: 30,
         marginBottom: 30
     },
-    label: {
-        fontSize: 16,
-    },
     btn: {
-        width: 80
+        width: 80,
+        margin: 10
     },
     btnContainer: {
         paddingLeft: 40,
@@ -169,5 +155,12 @@ const styles = StyleSheet.create({
     },
     errMsg: {
         color: "red"
+    },
+    label: {
+        fontSize: 16,
+    },
+    demo: {
+        fontSize: 16,
+        textDecorationLine: "underline"
     }
 });

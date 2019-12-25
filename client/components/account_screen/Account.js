@@ -1,6 +1,8 @@
-import React from 'react';
-import { SectionList, View, StyleSheet, Text } from 'react-native';
-import { Avatar } from "react-native-elements";
+import React from 'react'
+import { connect } from 'react-redux'
+import { SectionList, View, StyleSheet, Text } from 'react-native'
+import { Avatar } from "react-native-elements"
+import * as Action from "../../action";
 
 function Item({ title }) {
   return (
@@ -10,8 +12,9 @@ function Item({ title }) {
   );
 }
 
-export default function Account(props) {
+const Account = (props) =>  {
   const user = props.user;
+  console.log(user)
   const sections = [
     { data: [user.name], title: 'Name' },
     { data: [user.email], title: 'Email' },
@@ -52,6 +55,11 @@ Account.navigationOptions = {
   title: 'Account',
 };
 
+const mapStateToProps = state => ({
+  user: state
+});
+
+export default connect(mapStateToProps, Action)(Account);
 
 const styles = StyleSheet.create({
   container: {

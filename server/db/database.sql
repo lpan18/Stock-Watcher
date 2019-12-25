@@ -88,4 +88,4 @@ ALTER TABLE stock.alerts
 GRANT ALL ON TABLE stock.alerts TO postgres;
 
 -- Insert demo account
--- insert into stock.users(name, email, password, avatar) values ('demo', 'demo@me.com', 'Demo12345', 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg')
+-- insert into stock.users(name, email, password, avatar) values ('Demo', 'demo@me.com', '$2b$05$OzRWUowDWhbedZrHt04FPudbqBAHMacvS8omL/c7c1YBif9cRDjD2', 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg')

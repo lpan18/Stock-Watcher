@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { connect } from 'react-redux'
 import { StyleSheet, View, Text, Alert } from "react-native"
 import { Button } from "react-native-elements"
 import { NavigationEvents } from "react-navigation";
@@ -22,9 +23,8 @@ const getProfiles = async (symbols) => {
   return Promise.all(requests)
 }
 
-export default function Watch(props) {
-  // const user = props.user;
-  console.log(props)
+const Watch = (props) => {
+  const user = props.user
   const GetWatch = useQuery(GET_WATCH, {
     variables: { id: user.id },
   });
@@ -103,6 +103,12 @@ export default function Watch(props) {
 Watch.navigationOptions = {
   title: 'Watch',
 };
+
+const mapStateToProps = state => ({
+  user: state
+});
+
+export default connect(mapStateToProps)(Watch)
 
 const styles = StyleSheet.create({
   container: {

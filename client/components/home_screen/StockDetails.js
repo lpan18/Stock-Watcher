@@ -4,11 +4,10 @@ import { Button } from "react-native-elements"
 import { StyleSheet, View, Text, Alert } from "react-native"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import * as R from 'ramda'
-import { get } from 'lodash'
 import { GET_WATCH, ADD_WATCH } from "../queries"
 import PriceChart from "./PriceChart"
 
-const StockDetails = function StockDetails(props) {
+const StockDetails = (props) => {
     const user = props.user;
     const symbol = props.navigation.getParam('symbol') || '';
     const companyName = props.navigation.getParam('companyName') || '';

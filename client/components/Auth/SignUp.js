@@ -1,10 +1,12 @@
 import React, { useState } from "react"
+import { connect } from 'react-redux'
 import { StyleSheet, View } from "react-native"
 import { Button, Input, Text, Icon } from "react-native-elements"
 import { Formik } from "formik"
 import * as Yup from "yup"
 import { useMutation } from "@apollo/react-hooks"
 import { SIGN_UP } from "../queries"
+import * as Action from "../../action";
 
 const SignupSchema = Yup.object().shape({
   password: Yup.string()
@@ -20,15 +22,18 @@ const SignupSchema = Yup.object().shape({
     .email("Invalid email")
 });
 
-export default function SignUp({ navigation }) {
-  const goTo = path => {
-    navigation.navigate(path);
-  };
+const SignUp = (props) => {
+  const goTo = path => props.navigation.navigate(path);
   const [signUpMut] = useMutation(SIGN_UP);
   const signUp = async (values) => {
-    const currentUser = await signUpMut({ variables: values });
-    if (user && user.email == values.email) {
-      navigation.navigate("Main", {
+    const currentUser = await signUpMut({ variables: {
+      email: values.email.toLowerCase(),
+      name: values.name,
+      password: values.password
+    } }).then(res=>res.data.signup);
+    if (currentUser) {
+      props.signedIn(currentUser)
+      props.navigation.navigate("Main", {
         user: currentUser
       });
     }
@@ -107,11 +112,17 @@ export default function SignUp({ navigation }) {
       </Formik>
       <View style={styles.btnContainer}>
         <Text style={styles.label}>Already have an account?   </Text>
-        <Button buttonStyle={styles.btn} title="Sign In" onPress={() => goTo("SignIn")} />
+        <Text style={styles.demo} onPress={() => goTo("SignIn")}>Sign In</Text>
       </View>
     </View>
   );
 };
+
+const mapStateToProps = state => ({
+  user: state
+});
+
+export default connect(mapStateToProps, Action)(SignUp);
 
 const styles = StyleSheet.create({
   container: {
@@ -140,5 +151,9 @@ const styles = StyleSheet.create({
   },
   errMsg: {
     color: "red"
-  }
+  },
+  demo: {
+    fontSize: 16,
+    textDecorationLine: "underline"
+}
 });

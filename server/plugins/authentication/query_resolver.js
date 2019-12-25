@@ -2,6 +2,8 @@ const bcrypt = require("bcrypt")
   // jwt = require('jsonwebtoken');
 
 const userResolver = async (root, { email, password }, context) => {
+  console.log("in query resolver")
+  console.log(email+":"+password)
   try {
     const user = await context.pool.query(`SELECT * FROM stock.users WHERE email = '${email}'`).then(res => res.rows[0]);
     if (!user) {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { connect } from 'react-redux'
 import { StyleSheet, View, Text, Alert } from "react-native"
 import { Button, Input } from "react-native-elements"
 import { NavigationEvents } from "react-navigation";
@@ -7,6 +8,8 @@ import { useQuery, useMutation } from "@apollo/react-hooks"
 import { GET_ALERT, ADD_ALERT, REMOVE_ALERT } from "../queries"
 import { Formik } from "formik"
 import * as Yup from "yup"
+
+import * as Action from "../../action";
 
 const AlertSchema = Yup.object().shape({
   symbol: Yup.string()
@@ -18,7 +21,7 @@ const AlertSchema = Yup.object().shape({
     .matches(/^[+]?\d+([.]\d+)?$/, "Price must be a positive number")
 });
 
-export default function Alerts(props) {
+const Alerts = (props) => {
   const user = props.user;
   const GetAlert = useQuery(GET_ALERT, {
     variables: { id: user.id },
@@ -28,7 +31,6 @@ export default function Alerts(props) {
 
   const [addAlertMut] = useMutation(ADD_ALERT);
   const handleAdd = async (values) => {
-    console.log(values)
     const response = await addAlertMut({ variables: { id: user.id, symbol: values.symbol, low_price: parseFloat(values.price) } });
     Alert.alert('Success!', 'Added alert!');
     setAlertData(response.data.add_alert);
@@ -74,9 +76,9 @@ export default function Alerts(props) {
               </View>
             </Swipeable>
           ))}
+          <View style={styles.bottomLine} />
         </View>
       )}
-      <View style={styles.bottomLine} />
       <Formik
         validationSchema={AlertSchema}
         initialValues={{ symbol: "", price: "" }}
@@ -120,6 +122,12 @@ Alerts.navigationOptions = {
   title: 'Alerts',
 };
 
+const mapStateToProps = state => ({
+  user: state
+});
+
+export default connect(mapStateToProps, Action)(Alerts);
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
@@ -147,7 +155,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   header: {
-    marginTop: 20,
+    marginTop: 10,
     fontSize: 20,
     fontWeight: "bold",
     textAlign: 'center'
@@ -168,5 +176,5 @@ const styles = StyleSheet.create({
   },
   errMsg: {
     color: "red"
-}
+  }
 });
