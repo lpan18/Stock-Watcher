@@ -1,10 +1,9 @@
 module.exports = {
   Query: {
-    security: (parent, args, context, info) => {      
+    security: (parent, args, context, info) => {
       return {
-        symbol: args.symbol,
-      }
+        symbol: args.symbol
+      };
     }
   }
 };
-

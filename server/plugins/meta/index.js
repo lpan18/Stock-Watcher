@@ -1,4 +1,3 @@
 module.exports = {
-    resolvers: require('./resolvers')
-  };
-  
+  resolvers: require("./resolvers")
+};

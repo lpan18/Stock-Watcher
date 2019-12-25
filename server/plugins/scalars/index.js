@@ -1,10 +1,9 @@
-const requireText = require('require-text');
+const requireText = require("require-text");
 
 module.exports = {
   resolvers: {
-    JSON: require('./resolvers/json_resolver'),
-    DateTime: require('./resolvers/date_resolver'),
-    Percent: require('./resolvers/percent_resolver')
+    JSON: require("./resolvers/json_resolver"),
+    DateTime: require("./resolvers/date_resolver"),
   },
-  schema: requireText('./schema.gql', require)
+  schema: requireText("./schema.gql", require)
 };

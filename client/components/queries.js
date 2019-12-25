@@ -1,120 +1,120 @@
-import { gql } from 'apollo-boost'
+import { gql } from "apollo-boost";
 
 export const SIGN_UP = gql`
-mutation SignUp($email: String!, $name:String!, $password: String!) {
-  signup(email: $email, name:$name, password: $password) {
-    jwt
-    id
-    name
-    email
-    password
-    avatar
-    sys_create_time
-    sys_update_time
+  mutation SignUp($email: String!, $name: String!, $password: String!) {
+    signup(email: $email, name: $name, password: $password) {
+      jwt
+      id
+      name
+      email
+      password
+      avatar
+      sys_create_time
+      sys_update_time
+    }
   }
-}
-`
+`;
 export const ADD_WATCH = gql`
-mutation AddWatch($id: Int!, $symbol:String!) {
-  add_watch(id: $id, symbol:$symbol){
-    id
-    symbol
+  mutation AddWatch($id: Int!, $symbol: String!) {
+    add_watch(id: $id, symbol: $symbol) {
+      id
+      symbol
+    }
   }
-}
-`
+`;
 export const REMOVE_WATCH = gql`
-mutation RemoveWatch($id: Int!, $symbol:String!) {
-  remove_watch(id: $id, symbol:$symbol){
-    id
-    symbol
+  mutation RemoveWatch($id: Int!, $symbol: String!) {
+    remove_watch(id: $id, symbol: $symbol) {
+      id
+      symbol
+    }
   }
-}
-`
+`;
 export const ADD_ALERT = gql`
-mutation AddAlert($id: Int!, $symbol:String!, $low_price:Float!) {
-  add_alert(id: $id, symbol: $symbol, low_price: $low_price){
-    alert_id
-    id
-    symbol
-    low_price
-    sys_create_time
+  mutation AddAlert($id: Int!, $symbol: String!, $low_price: Float!) {
+    add_alert(id: $id, symbol: $symbol, low_price: $low_price) {
+      alert_id
+      id
+      symbol
+      low_price
+      sys_create_time
+    }
   }
-}
-`
+`;
 export const REMOVE_ALERT = gql`
-mutation RemoveAlert($alert_id: Int!, $id:Int!) {
-  remove_alert(alert_id:$alert_id, id: $id){
-    alert_id
-    symbol
-    low_price
-    sys_create_time
+  mutation RemoveAlert($alert_id: Int!, $id: Int!) {
+    remove_alert(alert_id: $alert_id, id: $id) {
+      alert_id
+      symbol
+      low_price
+      sys_create_time
+    }
   }
-}
-`
+`;
 
 export const GET_USER = gql`
-query User($email: String!, $password: String!) {
-  user(email: $email, password: $password) {
-    jwt
-    id
-    name
-    email
-    password
-    avatar
-    sys_create_time
-    sys_update_time
-  }
-}
-`
-export const GET_WATCH = gql`
-query WatchList($id: Int!){
-  watchlist(id: $id){
-    symbol
-  }
-}
-`
-export const GET_ALERT = gql`
-query AlertList($id: Int!){
-  alerts(id: $id) {
-    alert_id
-    symbol
-    low_price
-    sys_create_time
-  }
-}
-`
-export const GET_NEWS = gql`
-query News{
-  news {
-    source{
+  query User($email: String!, $password: String!) {
+    user(email: $email, password: $password) {
+      jwt
+      id
       name
+      email
+      password
+      avatar
+      sys_create_time
+      sys_update_time
     }
-    author
-    title
-    description
-    url
-    urlToImage
-    publishedAt
-    content
   }
-}
-`
+`;
+export const GET_WATCH = gql`
+  query WatchList($id: Int!) {
+    watchlist(id: $id) {
+      symbol
+    }
+  }
+`;
+export const GET_ALERT = gql`
+  query AlertList($id: Int!) {
+    alerts(id: $id) {
+      alert_id
+      symbol
+      low_price
+      sys_create_time
+    }
+  }
+`;
+export const GET_NEWS = gql`
+  query News {
+    news {
+      source {
+        name
+      }
+      author
+      title
+      description
+      url
+      urlToImage
+      publishedAt
+      content
+    }
+  }
+`;
 export const GET_FOREX = gql`
-query Forex{
-  exchange {
-    ticker
-    bid
-    ask
-    open
-    low
-    high
-    changes
-    date
+  query Forex {
+    exchange {
+      ticker
+      bid
+      ask
+      open
+      low
+      high
+      changes
+      date
+    }
   }
-}
-`
+`;
 export const GET_PROFILE = gql`
-query Security($symbol: String!) {
+  query Security($symbol: String!) {
     security(symbol: $symbol) {
       symbol
       profile {
@@ -137,78 +137,78 @@ query Security($symbol: String!) {
       }
     }
   }
-`
+`;
 
 export const GET_STOCK_INTRADAY_PRICE = gql`
-query Security($symbol: String!) {
+  query Security($symbol: String!) {
     security(symbol: $symbol) {
       stock_price {
-        intraday{
-        prices{
-          open
-          high
-          low
-          close
-          volume
-          datetime
+        intraday {
+          prices {
+            open
+            high
+            low
+            close
+            volume
+            datetime
+          }
         }
       }
     }
-      }
-    }
-`
+  }
+`;
 
 export const GET_STOCK_INTRADAY_H_PRICE = gql`
-query Security($symbol: String!) {
+  query Security($symbol: String!) {
     security(symbol: $symbol) {
       stock_price {
-        intraday_h{
-        prices{
-          open
-          high
-          low
-          close
-          volume
-          datetime
+        intraday_h {
+          prices {
+            open
+            high
+            low
+            close
+            volume
+            datetime
+          }
         }
       }
     }
-      }
-    }
-`
+  }
+`;
 
 export const GET_STOCK_DAILY_PRICE = gql`
-query Security($symbol: String!) {
+  query Security($symbol: String!) {
     security(symbol: $symbol) {
       stock_price {
         daily {
-        prices {
-          open
-          high
-          low
-          close
-          volume
-          datetime
+          prices {
+            open
+            high
+            low
+            close
+            volume
+            datetime
+          }
         }
       }
     }
   }
-}
-`
+`;
 
 export const GET_KEY_METRICS = gql`
-query Security($symbol: String!) {
-  security(symbol: $symbol) {
-    key_metrics{
-      date
-      revenue_per_share
-      net_income_per_share
-      free_cash_flow_per_share
-      market_cap
-      enterprise_value
-      PE_ratio
-      PB_ratio
+  query Security($symbol: String!) {
+    security(symbol: $symbol) {
+      key_metrics {
+        date
+        revenue_per_share
+        net_income_per_share
+        free_cash_flow_per_share
+        market_cap
+        enterprise_value
+        PE_ratio
+        PB_ratio
+      }
     }
   }
-}
-`
+`;

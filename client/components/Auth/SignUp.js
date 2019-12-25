@@ -1,118 +1,114 @@
-import React, { useState } from "react"
-import { connect } from 'react-redux'
-import { StyleSheet, View } from "react-native"
-import { Button, Input, Text, Icon } from "react-native-elements"
-import { Formik } from "formik"
-import * as Yup from "yup"
-import { useMutation } from "@apollo/react-hooks"
-import { SIGN_UP } from "../queries"
+import React from "react";
+import { connect } from "react-redux";
+import { StyleSheet, View } from "react-native";
+import { Button, Input, Text, Icon } from "react-native-elements";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import { useMutation } from "@apollo/react-hooks";
+import { SIGN_UP } from "../queries";
 import * as Action from "../../action";
 
 const SignupSchema = Yup.object().shape({
   password: Yup.string()
     .required("This field is required.")
     .min(6, "Password is too short")
-    .max(15, 'Password is too long')
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/, "Password must contain at least one uppercase letter, one lowercase letter and one number"),
+    .max(15, "Password is too long")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/,
+      "Password must contain at least one uppercase letter, one lowercase letter and one number"
+    ),
   name: Yup.string()
     .required("This field is required.")
-    .max(20, 'Name is too long'),
+    .max(20, "Name is too long"),
   email: Yup.string()
     .required("This field is required.")
     .email("Invalid email")
 });
 
-const SignUp = (props) => {
+const SignUp = props => {
   const goTo = path => props.navigation.navigate(path);
   const [signUpMut] = useMutation(SIGN_UP);
-  const signUp = async (values) => {
-    const currentUser = await signUpMut({ variables: {
-      email: values.email.toLowerCase(),
-      name: values.name,
-      password: values.password
-    } }).then(res=>res.data.signup);
+  const signUp = async values => {
+    const currentUser = await signUpMut({
+      variables: {
+        email: values.email.toLowerCase(),
+        name: values.name,
+        password: values.password
+      }
+    }).then(res => res.data.signup);
     if (currentUser) {
-      props.signedIn(currentUser)
+      props.signedIn(currentUser);
       props.navigation.navigate("Main", {
         user: currentUser
       });
     }
-  }
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sign Up</Text>
       <Formik
         validationSchema={SignupSchema}
-        initialValues={{ email: "", name: '', password: "" }}
+        initialValues={{ email: "", name: "", password: "" }}
         onSubmit={signUp}
       >
-        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched
+        }) => (
           <View>
             <Text style={styles.label}>Email Address</Text>
             <Input
-              placeholder='email@address.com'
-              rightIcon={
-                <Icon
-                  name='email'
-                  size={18}
-                  color='black'
-                />
-              }
+              placeholder="email@address.com"
+              rightIcon={<Icon name="email" size={18} color="black" />}
               onChangeText={handleChange("email")}
               onBlur={handleBlur("email")}
               value={values.email}
             />
-            {errors.email &&
-              touched.email && (
-                <Text style={styles.errMsg}>{errors.email}</Text>
-              )}
+            {errors.email && touched.email && (
+              <Text style={styles.errMsg}>{errors.email}</Text>
+            )}
             <Text> {"\n"} </Text>
             <Text style={styles.label}>Nick Name</Text>
             <Input
-              placeholder='Name'
-              rightIcon={
-                <Icon
-                  name='face'
-                  size={20}
-                  color='black'
-                />
-              }
+              placeholder="Name"
+              rightIcon={<Icon name="face" size={20} color="black" />}
               onChangeText={handleChange("name")}
               onBlur={handleBlur("name")}
               value={values.name}
             />
-            {errors.name &&
-              touched.name && (
-                <Text style={styles.errMsg}>{errors.name}</Text>
-              )}
-            <Text> {"\n"} </Text>
+            {errors.name && touched.name && (
+              <Text style={styles.errMsg}>{errors.name}</Text>
+            )}
+            <Text>{"\n"}</Text>
             <Text style={styles.label}>Password</Text>
             <Input
-              placeholder='Password'
-              rightIcon={
-                <Icon
-                  name='lock'
-                  size={20}
-                  color='black'
-                />
-              }
+              placeholder="Password"
+              rightIcon={<Icon name="lock" size={20} color="black" />}
               onChangeText={handleChange("password")}
               onBlur={handleBlur("password")}
               value={values.password}
             />
-            {errors.password &&
-              touched.password && (
-                <Text style={styles.errMsg}>{errors.password}</Text>
-              )}
-            <Text> {"\n"}{"\n"} </Text>
+            {errors.password && touched.password && (
+              <Text style={styles.errMsg}>{errors.password}</Text>
+            )}
+            <Text>
+              {"\n"}
+              {"\n"}
+            </Text>
             <Button onPress={handleSubmit} title="Sign Up" />
           </View>
         )}
       </Formik>
       <View style={styles.btnContainer}>
-        <Text style={styles.label}>Already have an account?   </Text>
-        <Text style={styles.demo} onPress={() => goTo("SignIn")}>Sign In</Text>
+        <Text style={styles.label}>Already have an account? </Text>
+        <Text style={styles.demo} onPress={() => goTo("SignIn")}>
+          Sign In
+        </Text>
       </View>
     </View>
   );
@@ -136,10 +132,10 @@ const styles = StyleSheet.create({
     marginBottom: 40
   },
   label: {
-    fontSize: 16,
+    fontSize: 16
   },
   btn: {
-    width: 80,
+    width: 80
   },
   btnContainer: {
     paddingLeft: 40,
@@ -155,5 +151,5 @@ const styles = StyleSheet.create({
   demo: {
     fontSize: 16,
     textDecorationLine: "underline"
-}
+  }
 });

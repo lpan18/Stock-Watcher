@@ -8,7 +8,7 @@ const exchangeResolver = (parent, args, context, info) => {
     .then(response => {
       return dig(response, "forexList");
     })
-    .catch((err) => console.log(err));
+    .catch(err => console.log(err));
 };
 
 module.exports = {

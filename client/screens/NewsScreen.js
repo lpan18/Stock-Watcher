@@ -1,6 +1,6 @@
-import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import News from "../components/news_screen/News"
+import React from "react";
+import { ScrollView, StyleSheet } from "react-native";
+import News from "../components/news_screen/News";
 
 export default function NewsScreen() {
   return (
@@ -11,13 +11,13 @@ export default function NewsScreen() {
 }
 
 NewsScreen.navigationOptions = {
-  title: 'News',
+  title: "News"
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 15,
-    backgroundColor: '#fff',
-  },
+    backgroundColor: "#fff"
+  }
 });

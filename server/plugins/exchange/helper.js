@@ -1,5 +1,5 @@
-const config = require("config")
+const config = require("config");
 
 module.exports = {
-  exchangeURL: config.exchange.url,
+  exchangeURL: config.exchange.url
 };

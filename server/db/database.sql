@@ -2,10 +2,10 @@ CREATE DATABASE "stock-watcher"
     WITH 
     OWNER = postgres
     ENCODING = 'UTF8'
-    LC_COLLATE = 'C'
-    LC_CTYPE = 'C'
-    TABLESPACE = pg_default
-    CONNECTION LIMIT = -1;
+    -- LC_COLLATE = 'C'
+    -- LC_CTYPE = 'C'
+    -- TABLESPACE = pg_default
+    -- CONNECTION LIMIT = -1;
 
 \c stock-watcher
 
@@ -36,7 +36,7 @@ ALTER TABLE stock.users
 
 GRANT ALL ON TABLE stock.users TO postgres;
 
-CREATE UNIQUE INDEX idx_user_id  ON stock.users USING btree (id)
+CREATE UNIQUE INDEX idx_user_id  ON stock.users USING btree (id);
 
 
 -- TABLE watchlist

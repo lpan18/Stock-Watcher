@@ -1,14 +1,13 @@
 module.exports = {
-
   name: "DateTime",
 
-  description: "Date Time object",
+  description: "Date Time Object",
 
-  serialize: (value) => {
+  serialize: value => {
     return value;
   },
 
-  parseValue: (value) => {
+  parseValue: value => {
     return value;
   }
 };

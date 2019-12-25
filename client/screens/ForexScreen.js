@@ -1,6 +1,6 @@
-import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import Forex from "../components/forex_screen/Forex"
+import React from "react";
+import { ScrollView, StyleSheet } from "react-native";
+import Forex from "../components/forex_screen/Forex";
 
 export default function ForexScreen() {
   return (
@@ -11,13 +11,13 @@ export default function ForexScreen() {
 }
 
 ForexScreen.navigationOptions = {
-  title: 'Forex',
+  title: "Forex"
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 15,
-    backgroundColor: '#fff',
-  },
+    backgroundColor: "#fff"
+  }
 });

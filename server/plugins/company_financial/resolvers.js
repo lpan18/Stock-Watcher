@@ -1,7 +1,7 @@
 const dig = require("object-dig"),
-  R = require('ramda'),
+  R = require("ramda"),
   config = require("config"),
-  financialHelper = require("./helper")
+  financialHelper = require("./helper");
 
 const incomesResolver = (parent, args, context, info) => {
   const period = config.company.financial.income.period;
@@ -15,14 +15,14 @@ const incomesResolver = (parent, args, context, info) => {
           date: item.date,
           revenue: item.Revenue,
           EPS: item.EPS
-        }
+        };
       }, financials);
     })
     .catch(() => null);
-}
+};
 
 module.exports = {
   Security: {
     incomes: incomesResolver
   }
-}
+};

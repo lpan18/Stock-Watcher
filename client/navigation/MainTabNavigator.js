@@ -1,18 +1,21 @@
-import React from 'react';
-import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import React from "react";
+import { Platform } from "react-native";
+import {
+  createStackNavigator,
+  createBottomTabNavigator
+} from "react-navigation";
 
-import TabBarIcon from '../components/TabBarIcon'
-import HomeScreen from '../screens/HomeScreen'
-import StockDetails from '../components/home_screen/StockDetails'
-import AlertsScreen from '../screens/AlertsScreen'
-import NewsScreen from '../screens/NewsScreen'
-import ForexScreen from '../screens/ForexScreen'
-import AccountScreen from '../screens/AccountScreen'
+import TabBarIcon from "../components/TabBarIcon";
+import HomeScreen from "../screens/HomeScreen";
+import StockDetails from "../components/home_screen/StockDetails";
+import AlertsScreen from "../screens/AlertsScreen";
+import NewsScreen from "../screens/NewsScreen";
+import ForexScreen from "../screens/ForexScreen";
+import AccountScreen from "../screens/AccountScreen";
 
 const config = Platform.select({
-  web: { headerMode: 'screen' },
-  default: {},
+  web: { headerMode: "screen" },
+  default: {}
 });
 
 const HomeStack = createStackNavigator(
@@ -21,100 +24,112 @@ const HomeStack = createStackNavigator(
     StockDetails: StockDetails
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: "Home"
   }
 );
 
 HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+  tabBarLabel: "Home",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
       name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+        Platform.OS === "ios"
+          ? `ios-information-circle${focused ? "" : "-outline"}`
+          : "md-information-circle"
       }
     />
-  ),
+  )
 };
 
-HomeStack.path = '';
+HomeStack.path = "";
 
 const AlertsStack = createStackNavigator(
   {
-    Alerts: AlertsScreen,
+    Alerts: AlertsScreen
   },
   {
-    initialRouteName: 'Alerts',
+    initialRouteName: "Alerts"
   }
 );
 
 AlertsStack.navigationOptions = {
-  tabBarLabel: 'Alerts',
+  tabBarLabel: "Alerts",
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-alarm' : 'md-alarm'} />
-  ),
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-alarm" : "md-alarm"}
+    />
+  )
 };
 
-AlertsStack.path = '';
+AlertsStack.path = "";
 
 const NewsStack = createStackNavigator(
   {
-    News: NewsScreen,
+    News: NewsScreen
   },
   config
 );
 
 NewsStack.navigationOptions = {
-  tabBarLabel: 'News',
+  tabBarLabel: "News",
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-list' : 'md-list'} />
-  ),
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-list" : "md-list"}
+    />
+  )
 };
 
-NewsStack.path = '';
+NewsStack.path = "";
 
 const ForexStack = createStackNavigator(
   {
-    Forex: ForexScreen,
+    Forex: ForexScreen
   },
   config
 );
 
 ForexStack.navigationOptions = {
-  tabBarLabel: 'Forex',
+  tabBarLabel: "Forex",
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
-  ),
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-link" : "md-link"}
+    />
+  )
 };
 
-ForexStack.path = '';
+ForexStack.path = "";
 
 const AccountStack = createStackNavigator(
   {
-    Account: AccountScreen,
+    Account: AccountScreen
   },
   config
 );
 
 AccountStack.navigationOptions = {
-  tabBarLabel: 'Account',
+  tabBarLabel: "Account",
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-contact' : 'md-contact'} />
-  ),
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-contact" : "md-contact"}
+    />
+  )
 };
 
-AccountStack.path = '';
+AccountStack.path = "";
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack: HomeStack,
   NewsStack: NewsStack,
   AlertsStack: AlertsStack,
   ForexStack: ForexStack,
-  AccountStack: AccountStack,
+  AccountStack: AccountStack
 });
 
-tabNavigator.path = '';
+tabNavigator.path = "";
 
 export default tabNavigator;

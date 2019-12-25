@@ -1,6 +1,6 @@
-const Kind = require('graphql/language').Kind;
+const Kind = require("graphql/language").Kind;
 
-const parseLiteral = (ast) => {
+const parseLiteral = ast => {
   switch (ast.kind) {
     case Kind.STRING:
     case Kind.BOOLEAN:
@@ -12,7 +12,7 @@ const parseLiteral = (ast) => {
 
     case Kind.OBJECT: {
       const value = Object.create(null);
-      ast.fields.forEach((field) => {
+      ast.fields.forEach(field => {
         value[field.name.value] = parseLiteral(field.value);
       });
       return value;
@@ -27,16 +27,15 @@ const parseLiteral = (ast) => {
 };
 
 module.exports = {
-
   name: "JSON",
 
-  description: "Generic JavaScript object",
+  description: "JSON object",
 
-  serialize: (value) => {
+  serialize: value => {
     return value;
   },
 
-  parseValue: (value) => {
+  parseValue: value => {
     return value;
   },
 

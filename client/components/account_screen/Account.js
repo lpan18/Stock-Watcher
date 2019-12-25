@@ -1,7 +1,7 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { SectionList, View, StyleSheet, Text } from 'react-native'
-import { Avatar } from "react-native-elements"
+import React from "react";
+import { connect } from "react-redux";
+import { SectionList, View, StyleSheet, Text } from "react-native";
+import { Avatar } from "react-native-elements";
 import * as Action from "../../action";
 
 function Item({ title }) {
@@ -12,14 +12,13 @@ function Item({ title }) {
   );
 }
 
-const Account = (props) =>  {
+const Account = props => {
   const user = props.user;
-  console.log(user)
   const sections = [
-    { data: [user.name], title: 'Name' },
-    { data: [user.email], title: 'Email' },
-    { data: [user.sys_create_time], title: 'Create time' },
-    { data: [user.sys_create_time], title: 'Last update time' },
+    { data: [user.name], title: "Name" },
+    { data: [user.email], title: "Email" },
+    { data: [user.sys_create_time], title: "Create time" },
+    { data: [user.sys_create_time], title: "Last update time" }
   ];
 
   return (
@@ -30,10 +29,14 @@ const Account = (props) =>  {
         source={{
           uri: user.avatar
         }}
-        icon={{ name: 'user', type: 'font-awesome' }}
-        onPress={() => console.log("Works!")}
+        icon={{ name: "user", type: "font-awesome" }}
         activeOpacity={0.7}
-        containerStyle={{ flex: 2, marginLeft: 20, marginTop: 10, marginBottom: 25 }}
+        containerStyle={{
+          flex: 2,
+          marginLeft: 20,
+          marginTop: 10,
+          marginBottom: 25
+        }}
       />
 
       <SectionList
@@ -49,10 +52,10 @@ const Account = (props) =>  {
       />
     </View>
   );
-}
+};
 
 Account.navigationOptions = {
-  title: 'Account',
+  title: "Account"
 };
 
 const mapStateToProps = state => ({
@@ -65,30 +68,30 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: 16,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff"
   },
   sectionHeaderContainer: {
-    backgroundColor: '#fbfbfb',
+    backgroundColor: "#fbfbfb",
     paddingVertical: 8,
     paddingHorizontal: 15,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#ededed',
+    borderColor: "#ededed"
   },
   sectionHeaderText: {
-    fontSize: 20,
+    fontSize: 20
   },
   sectionContentContainer: {
     paddingTop: 8,
     paddingBottom: 12,
-    paddingHorizontal: 15,
+    paddingHorizontal: 15
   },
   sectionContentText: {
-    color: '#808080',
+    color: "#808080",
     fontSize: 16,
     padding: 5,
     marginVertical: 5
   },
   title: {
-    fontSize: 18,
-  },
+    fontSize: 18
+  }
 });

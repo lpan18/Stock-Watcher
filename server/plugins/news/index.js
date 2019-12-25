@@ -1,8 +1,8 @@
-const requireText = require('require-text');
+const requireText = require("require-text");
 
 module.exports = {
   resolvers: {
-    Query:  require('./resolvers'),
+    Query: require("./resolvers")
   },
-  schema: requireText('./schema.gql', require)
+  schema: requireText("./schema.gql", require)
 };
