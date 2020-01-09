@@ -31,7 +31,7 @@ const Alerts = props => {
   const [alertData, setAlertData] = useState([]);
 
   const [addAlertMut] = useMutation(ADD_ALERT);
-  const handleAdd = async values => {
+  const handleAdd = async (values, {setSubmitting, setErrors, setStatus, resetForm}) => {
     if(SYMBOLS.includes(values.symbol.toUpperCase())){
       const response = await addAlertMut({
         variables: {
@@ -42,6 +42,7 @@ const Alerts = props => {
       });
       Alert.alert("Success!", "Added alert!");
       setAlertData(response.data.add_alert);
+      resetForm({ symbol: "", price: "" });
     }else{
       Alert.alert("Error!", "Symbol invalid!");
     }

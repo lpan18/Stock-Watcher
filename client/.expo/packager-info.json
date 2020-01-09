@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19004,
-  "packagerPid": 58705,
-  "expoServerNgrokUrl": "https://kz-psq.lpan18.client.exp.direct",
-  "packagerNgrokUrl": "https://packager.kz-psq.lpan18.client.exp.direct",
-  "ngrokPid": 58723
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }
