@@ -10,7 +10,7 @@
     "agentkeepalive": "4.0.2",
     "apollo-cache-inmemory": "^1.6.2",
     "apollo-errors": "1.9.0",
-    "apollo-server": "^2.9.6",
+    "apollo-server": "^2.25.4",
     "apollo-server-express": "^2.9.6",
     "bcrypt": "^3.0.7",
     "bluebird": "^3.7.2",
